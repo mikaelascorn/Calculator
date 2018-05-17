@@ -18,9 +18,8 @@ class App extends React.Component {
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
-    // this.firstNum = this.firstNum.bind(this);
-    // this.secondNum = this.secondNum.bind(this);
   }
+  
   sendNumber(e) {
     e.preventDefault();
   }
@@ -62,7 +61,7 @@ class App extends React.Component {
 
     })
   }
-  
+
   // on enter only show the computed string- concat?
   userEnter() {
     console.log('enter');
