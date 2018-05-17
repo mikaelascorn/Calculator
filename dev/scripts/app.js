@@ -67,7 +67,9 @@ class App extends React.Component {
   userEnter() {
     console.log('enter');
     this.setState({
-      display: `${this.state.firstNum} ${this.state.operator} ${this.state.secondNum}`
+      display: `${this.state.firstNum} ${this.state.operator} ${this.state.secondNum}`,
+      firstNum: '',
+      secondNum: ''
     })
   }
 
