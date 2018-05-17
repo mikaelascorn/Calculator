@@ -20,7 +20,6 @@ class App extends React.Component {
     this.sendNumber = this.sendNumber.bind(this);
     // this.firstNum = this.firstNum.bind(this);
     // this.secondNum = this.secondNum.bind(this);
-
   }
   sendNumber(e) {
     e.preventDefault();
@@ -40,11 +39,12 @@ class App extends React.Component {
     }
     this.setState({
       display: this.state.display + selectedNumber + this.state.operator,
-      // use bottom to get rid of the 0 when they start typing
+      // below to get rid of the 0 when they start typing
       // display: display === '0' ? '0' : this.state.display + selectedNumber
     })
   }
 
+  // this is only clearning the display and not the actual React field
   userClear() {
     console.log('clear');
     this.setState({
@@ -52,35 +52,22 @@ class App extends React.Component {
     }) 
   }
 
-  userEnter() {
-    console.log('enter');
-
-    this.setState({
-      // display: this.state.display
-      display: (`${this.state.firstNum} ${this.state.operator} ${this.state.secondNum}`)
-
-    })
-  }
-
-  // userDot() {
-  //   // only have decimal if we dont have one
-  //   if (display.indexOf('.') === 0 ) {
-  //     this.setState({
-  //       display: this.state.display + '.'
-  //     })
-  //   }
-  // }
-
-  // put it into the display concatnate 
   userMath(operator) {
     console.log(operator);
     this.setState({
-    
+
       firstNum: this.state.display,
-      
       operator: operator,
       secondNum: ''
 
+    })
+  }
+  
+  // on enter only show the computed string- concat?
+  userEnter() {
+    console.log('enter');
+    this.setState({
+      display: `${this.state.firstNum} ${this.state.operator} ${this.state.secondNum}`
     })
   }
 
@@ -111,13 +98,10 @@ class App extends React.Component {
             <button onClick={() => this.userMath('-')}>-</button>
           </div>
           <div>
-            <button onClick={() => this.userDot('.')}>.</button>
+            <button onClick={() => this.userInput(0)}>0</button>
             <button onClick={() => this.userClear()}>C</button>
             <button onClick={() => this.userMath('+')}>+</button>
             <button onClick={() => this.userEnter('=')}>=</button>
-          </div>
-          <div>
-            <button onClick={() => this.userInput(0)}>0</button>
           </div>
         </form>
       </div>
