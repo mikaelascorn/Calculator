@@ -12,11 +12,15 @@ class App extends React.Component {
     super();
     this.state = {
       display: '0',
-      operator: ''
+      operator: '',
+      firstNum: '',
+      secondNum: ''
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
-    // this.userEnter = this.userEnter.bind.(this);
+    // this.firstNum = this.firstNum.bind(this);
+    // this.secondNum = this.secondNum.bind(this);
+
   }
   sendNumber(e) {
     e.preventDefault();
@@ -25,14 +29,20 @@ class App extends React.Component {
   // this will update the view window when the user presses a number
   userInput(selectedNumber) {
     console.log(selectedNumber);
+    if (this.state.operator === '') {
+      this.setState({
+        firstNum: this.state.firstNum + selectedNumber
+      }) 
+    } else { 
+      this.setState ({
+        secondNum: this.state.secondNum + selectedNumber
+      });
+    }
     this.setState({
-      display: this.state.display + selectedNumber
+      display: this.state.display + selectedNumber + this.state.operator,
       // use bottom to get rid of the 0 when they start typing
       // display: display === '0' ? '0' : this.state.display + selectedNumber
     })
-    // recall our conversation about boxes and parameters
-    // what is selectedNumber in this case, and how am I shoving a number into it?
-    return selectedNumber;
   }
 
   userClear() {
@@ -41,25 +51,33 @@ class App extends React.Component {
       display: '0'
     }) 
   }
+
   userEnter() {
     console.log('enter');
-    // come here update state and string together the firstNum and the operator and secondNum
-    // then stop to re set state
+
     this.setState({
-      // display: this.state.display.toString()
-      display: (`${firstNum}${operator}${lastNum}`)
+      // display: this.state.display
+      display: (`${this.state.firstNum} ${this.state.operator} ${this.state.secondNum}`)
 
     })
   }
 
+  // userDot() {
+  //   // only have decimal if we dont have one
+  //   if (display.indexOf('.') === 0 ) {
+  //     this.setState({
+  //       display: this.state.display + '.'
+  //     })
+  //   }
+  // }
+
+  // put it into the display concatnate 
   userMath(operator) {
     console.log(operator);
     this.setState({
-      // remember what comes before the operator in the first num and then update display to 0 and set state to second num
-      // has to be everything before the operator
+    
       firstNum: this.state.display,
-      // display: this.state.display 
-      // hold the operator sign
+      
       operator: operator,
       secondNum: ''
 
@@ -93,10 +111,13 @@ class App extends React.Component {
             <button onClick={() => this.userMath('-')}>-</button>
           </div>
           <div>
-            <button onClick={() => this.userInput(0)}>0</button>
+            <button onClick={() => this.userDot('.')}>.</button>
             <button onClick={() => this.userClear()}>C</button>
             <button onClick={() => this.userMath('+')}>+</button>
             <button onClick={() => this.userEnter('=')}>=</button>
+          </div>
+          <div>
+            <button onClick={() => this.userInput(0)}>0</button>
           </div>
         </form>
       </div>
