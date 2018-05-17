@@ -22,6 +22,7 @@ class App extends React.Component {
   
   sendNumber(e) {
     e.preventDefault();
+    // this.onEnter = this.onEnter.bind(this);
   }
   // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
@@ -70,6 +71,18 @@ class App extends React.Component {
       firstNum: '',
       secondNum: ''
     })
+
+    // recall our conversation about boxes and parameters
+    // what is selectedNumber in this case, and how am I shoving a number into it?
+
+    // this.setState({
+    //   display: display + userInput.val()
+    // })
+    console.log('button clicked');
+  }
+
+  sendNumber(e){
+    e.preventDefault();
   }
 
   render() {
