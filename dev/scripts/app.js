@@ -18,14 +18,18 @@ import ReactDOM from 'react-dom';
 // Calculator is the APP and the notepad is the child Component?
 // Make it work and then set up firebase
 // Strech goal is a notepad on the sign, a full bugeting app, strech strech is a signin
+
+// let user push buttons
+// equate the buttons to values 
+// create a string - concat 
+// return the result to user when they press enter
 class App extends React.Component {
+
   constructor() {
     super();
     this.state = {
-      display: 0,
-      operator: null,
-      firstNum: null,
-      secondNum: null
+      display: '',
+      equation: []
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -37,110 +41,51 @@ class App extends React.Component {
 
   // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
-  userInput(selectedNumber) {
-    console.log(typeof selectedNumber)
-    console.log(selectedNumber);
-    
-    const stringNumber = selectedNumber.toString();
-    
-    console.log(typeof stringNumber);
-    // how to join the numbers without adding them
-    if (this.state.operator === null ) {
-      this.setState({
-        firstNum: this.state.firstNum + stringNumber,
-      }) 
-    } else { 
-      this.setState ({
-        secondNum: this.state.secondNum + stringNumber,
-      });
-    }
+  userInput(selectedInput) {
 
+    // hold this and then push to state
+    let holdingEquation = this.state.equation;
+
+    // dont change state direction
+    holdingEquation.push(selectedInput);
+    console.log(holdingEquation);
+    
     this.setState({
-      display: this.state.display + this.state.operator + stringNumber
-      // below to get rid of the 0 when they start typing
-      // display: this.state.display === 0 ? '0' : this.state.firstNum + this.state.operator + stringNumber
+      equation: holdingEquation
     })
-  }
-
-  userClear() {
-    console.log('clear');
-    this.setState({
-      display: 0,
-      firstNum: null,
-      secondNum: null,
-      operator: null,
-    }) 
-  }
-
-  userMath(operator) {
-    console.log(operator);
-    this.setState({
-      firstNum: this.state.display,
-      operator: operator,
-      secondNum: null
-    })
-  }
-
-  // userEnter(operator) {
-  //   console.log(operator);
+    console.log(this.state.equation);
     
-  //   // need to convert this string operator to a number so it will compute?
-  //   if (this.state.operator = '+') {
-  //     display: this.state.firstNum + this.state.secondNum
-  //     console.log(typeof this.state.operator);
-  //   } else {
-  //     console.log('not');
-      
-  //   }
-  //   this.setState({
-  //     display: this.setState,
-  //     firstNum: null,
-  //     secondNum: null,
-  //     operator: null
-  //   })    
-
-  // }
-
-  userEnter(operator, firstNum, secondNum) {
-
-    const firstHalf = Number.parseInt(this.state.firstNum);
-    const secondHalf = Number.parseInt(this.state.secondNum);
-
-    if (this.state.operator = '+') {
-      display: firstHalf + secondHalf
-      console.log(typeof this.state.operator);
-    } else {
-      console.log('not');
-    }
-
+  }
+  
+  userEnter() {
+    
+    // const firstHalf = Number.parseInt(this.state.firstNum);
+    // const secondHalf = Number.parseInt(this.state.secondNum);
+    
     this.setState({
       display: this.setState,
-      firstNum: null,
-      secondNum: null,
-      operator: null
+      
     })  
-  }
-
-  // userInput(firstNum, secondNum) {
-  //   return firstNum + secondNum
-  // }
-
-//   `A * B`
-
-//   `a / b`
-// return answer
-
+    
+    // const dbRef = firebase.database().ref('display');
+    // // push it in 
+    // dbRef.push(display);
+    // // this is to re set the state, like updating the property value, empty string so the field clears everytime
+    // this.setState({
+      
+      // })
+    }
+    
+      userClear() {
+        console.log('clear');
+        this.setState({
+          display: ''
+        }) 
+      }
+  
   sendNumber(e){
     e.preventDefault();
   }
-
-// ```userInput(35,31);```
-
-// vs
-
-//   ```userinput(35, 31){
-//     return a + b;
-// }```
 
   render() {
     return (
@@ -154,24 +99,24 @@ class App extends React.Component {
             <button onClick={() => this.userInput(7)}>7</button>
             <button onClick={() => this.userInput(8)}>8</button>
             <button onClick={() => this.userInput(9)}>9</button>
-            <button onClick={() => this.userMath('/')}>/</button>
+            <button onClick={() => this.userInput('/')}>/</button>
           </div>
           <div>
             <button onClick={() => this.userInput(4)}>4</button>
             <button onClick={() => this.userInput(5)}>5</button>
             <button onClick={() => this.userInput(6)}>6</button>
-            <button onClick={() => this.userMath('*')}>*</button>
+            <button onClick={() => this.userInput('*')}>*</button>
           </div>
           <div>
             <button onClick={() => this.userInput(1)}>1</button>
             <button onClick={() => this.userInput(2)}>2</button>
             <button onClick={() => this.userInput(3)}>3</button>
-            <button onClick={() => this.userMath('-')}>-</button>
+            <button onClick={() => this.userInput('-')}>-</button>
           </div>
           <div>
             <button onClick={() => this.userInput(0)}>0</button>
             <button onClick={() => this.userClear()}>C</button>
-            <button onClick={() => this.userMath('+')}>+</button>
+            <button onClick={() => this.userInput('+')}>+</button>
             <button onClick={() => this.userEnter('=')}>=</button>
           </div>
         </form>
