@@ -33,6 +33,7 @@ class App extends React.Component {
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
+    this.userEnter = this.userEnter.bind(this);
   }
   
   sendNumber(e) {
@@ -41,14 +42,14 @@ class App extends React.Component {
 
   // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
-  userInput(selectedInput) {
+ userInput(selectedInput) {
 
     // hold this and then push to state
     let holdingEquation = this.state.equation;
 
-    // dont change state direction
+    // dont change state directly, 
     holdingEquation.push(selectedInput);
-    console.log(holdingEquation);
+    // console.log(holdingEquation);
     
     this.setState({
       equation: holdingEquation
@@ -57,14 +58,19 @@ class App extends React.Component {
     
   }
   
-  userEnter() {
+  userEnter(finalEquation) {
+
     
-    // const firstHalf = Number.parseInt(this.state.firstNum);
-    // const secondHalf = Number.parseInt(this.state.secondNum);
+    let finalResult = (this.state.equation).toString();
+    // g is global for regex
+    const finalFinalResult = finalResult.replace(/,/g, ' ');
     
+    console.log(finalFinalResult);
+    
+    // finalResult.eval(final);
+  
     this.setState({
-      display: this.setState,
-      
+      display: finalResult      
     })  
     
     // const dbRef = firebase.database().ref('display');
@@ -76,12 +82,13 @@ class App extends React.Component {
       // })
     }
     
-      userClear() {
-        console.log('clear');
-        this.setState({
-          display: ''
-        }) 
-      }
+  userClear() {
+    console.log('clear');
+    this.setState({
+      display: '',
+      equation: []
+    }) 
+  }
   
   sendNumber(e){
     e.preventDefault();
