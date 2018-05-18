@@ -30,7 +30,7 @@ class App extends React.Component {
     this.state = {
       display: '',
       equation: [],
-      operator: false
+      operator: []
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -44,8 +44,24 @@ class App extends React.Component {
   // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
  userInput(selectedInput) {
-   console.log(typeof(selectedInput));
-  //  if (  )
+   console.log(selectedInput);
+   let fixedOperators = this.state.operator;
+
+  //  console.log(typeof(selectedInput));
+   if ( fixedOperators.length === 1 ) {
+     console.log('reached');
+     
+    fixedOperators.push(selectedInput);
+
+     this.setState({
+       operator: fixedOperators
+     })
+     
+   } else if ( this.state.operator !== '' ) {
+      // alert('Incorrect')
+      // the previous entry was a string dont go
+   }
+
    // hold this and then push to state
    let holdingEquation = this.state.equation;
 
