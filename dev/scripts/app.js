@@ -1,5 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import firebase from 'firebase';
+
+// var config = {
+//   apiKey: "AIzaSyBdREr20ow0SQ_1ob6hPRGJnTTvnah-Pis",
+//   authDomain: "never-calc-down.firebaseapp.com",
+//   databaseURL: "https://never-calc-down.firebaseio.com",
+//   projectId: "never-calc-down",
+//   storageBucket: "never-calc-down.appspot.com",
+//   messagingSenderId: "234463903284"
+// };
+// firebase.initializeApp(config);
+
 
 // On submit log the calculation to the screen.
 // Start with numbers on the screen, individual buttons, they all have one state, and it gets altered and it updates on submit/enter/=
@@ -11,10 +23,10 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      display: '0',
-      operator: '',
-      firstNum: '',
-      secondNum: ''
+      display: 0,
+      operator: null,
+      firstNum: null,
+      secondNum: null
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -22,13 +34,15 @@ class App extends React.Component {
   
   sendNumber(e) {
     e.preventDefault();
-    // this.onEnter = this.onEnter.bind(this);
   }
+
   // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
   userInput(selectedNumber) {
     console.log(selectedNumber);
-    if (this.state.operator === '') {
+    
+    // how to join the numbers without adding them
+    if (this.state.operator === null ) {
       this.setState({
         firstNum: this.state.firstNum + selectedNumber
       }) 
@@ -37,53 +51,91 @@ class App extends React.Component {
         secondNum: this.state.secondNum + selectedNumber
       });
     }
+
     this.setState({
-      display: this.state.display + selectedNumber + this.state.operator,
+      display: this.state.display + this.state.operator + selectedNumber,
       // below to get rid of the 0 when they start typing
       // display: display === '0' ? '0' : this.state.display + selectedNumber
     })
   }
 
-  // this is only clearning the display and not the actual React field
   userClear() {
     console.log('clear');
     this.setState({
-      display: '0'
+      display: 0,
+      firstNum: null,
+      secondNum: null,
+      operator: null,
     }) 
   }
 
   userMath(operator) {
     console.log(operator);
     this.setState({
-
       firstNum: this.state.display,
       operator: operator,
-      secondNum: ''
-
+      secondNum: 0
     })
   }
 
-  // on enter only show the computed string- concat?
-  userEnter() {
-    console.log('enter');
+  // userEnter(operator) {
+  //   console.log(operator);
+    
+  //   // need to convert this string operator to a number so it will compute?
+  //   if (this.state.operator = '+') {
+  //     display: this.state.firstNum + this.state.secondNum
+  //     console.log(typeof this.state.operator);
+  //   } else {
+  //     console.log('not');
+      
+  //   }
+  //   this.setState({
+  //     display: this.setState,
+  //     firstNum: null,
+  //     secondNum: null,
+  //     operator: null
+  //   })    
+
+  // }
+
+
+  userEnter(operator, firstNum, secondNum) {
+    
+    if (this.state.operator = '+') {
+      display: this.state.firstNum + this.state.secondNum
+      console.log(typeof this.state.operator);
+    } else {
+      console.log('not');
+    }
+    
     this.setState({
-      display: `${this.state.firstNum} ${this.state.operator} ${this.state.secondNum}`,
-      firstNum: '',
-      secondNum: ''
-    })
-
-    // recall our conversation about boxes and parameters
-    // what is selectedNumber in this case, and how am I shoving a number into it?
-
-    // this.setState({
-    //   display: display + userInput.val()
-    // })
-    console.log('button clicked');
+      display: this.setState,
+      firstNum: null,
+      secondNum: null,
+      operator: null
+    })  
   }
+
+  // userInput(firstNum, secondNum) {
+  //   return firstNum + secondNum
+  // }
+
+//   `A * B`
+
+//   `a / b`
+// return answer
 
   sendNumber(e){
     e.preventDefault();
   }
+
+// ```userInput(35,31);```
+
+// vs
+
+//   ```userinput(35, 31){
+//     return a + b;
+// }```
 
   render() {
     return (
