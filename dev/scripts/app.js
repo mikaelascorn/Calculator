@@ -29,7 +29,8 @@ class App extends React.Component {
     super();
     this.state = {
       display: '',
-      equation: []
+      equation: [],
+      operator: false
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -43,43 +44,46 @@ class App extends React.Component {
   // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
  userInput(selectedInput) {
+   console.log(typeof(selectedInput));
+  //  if (  )
+   // hold this and then push to state
+   let holdingEquation = this.state.equation;
 
-    // hold this and then push to state
-    let holdingEquation = this.state.equation;
-
-    // dont change state directly, 
+    // dont change state directly
     holdingEquation.push(selectedInput);
-    // console.log(holdingEquation);
-    
+
+    let heldEquation = holdingEquation.toString();
+
+    let viewEquation = heldEquation.replace(/,/g, '');
+    console.log(viewEquation);
+
     this.setState({
+      display: viewEquation,
       equation: holdingEquation
     })
     console.log(this.state.equation);
-    
   }
   
   userEnter(finalEquation) {
 
-    
+    // if(this.state.equation === '')
+
     let finalResult = (this.state.equation).toString();
     // g is global for regex
-    const finalFinalResult = finalResult.replace(/,/g, ' ');
+    const finalFinalResult = finalResult.replace(/,/g, '');
     
     console.log(finalFinalResult);
     
-    // finalResult.eval(final);
+    const theAnswer = eval(finalFinalResult);
   
     this.setState({
-      display: finalResult      
+      display: theAnswer      
     })  
     
     // const dbRef = firebase.database().ref('display');
     // // push it in 
     // dbRef.push(display);
-    // // this is to re set the state, like updating the property value, empty string so the field clears everytime
-    // this.setState({
-      
-      // })
+ 
     }
     
   userClear() {
