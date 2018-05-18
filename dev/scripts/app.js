@@ -18,7 +18,6 @@ import ReactDOM from 'react-dom';
 // Calculator is the APP and the notepad is the child Component?
 // Make it work and then set up firebase
 // Strech goal is a notepad on the sign, a full bugeting app, strech strech is a signin
-
 class App extends React.Component {
   constructor() {
     super();
@@ -39,23 +38,27 @@ class App extends React.Component {
   // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
   userInput(selectedNumber) {
+    console.log(typeof selectedNumber)
     console.log(selectedNumber);
     
+    const stringNumber = selectedNumber.toString();
+    
+    console.log(typeof stringNumber);
     // how to join the numbers without adding them
     if (this.state.operator === null ) {
       this.setState({
-        firstNum: this.state.firstNum + selectedNumber
+        firstNum: this.state.firstNum + stringNumber,
       }) 
     } else { 
       this.setState ({
-        secondNum: this.state.secondNum + selectedNumber
+        secondNum: this.state.secondNum + stringNumber,
       });
     }
 
     this.setState({
-      display: this.state.display + this.state.operator + selectedNumber,
+      display: this.state.display + this.state.operator + stringNumber
       // below to get rid of the 0 when they start typing
-      // display: display === '0' ? '0' : this.state.display + selectedNumber
+      // display: this.state.display === 0 ? '0' : this.state.firstNum + this.state.operator + stringNumber
     })
   }
 
@@ -74,7 +77,7 @@ class App extends React.Component {
     this.setState({
       firstNum: this.state.display,
       operator: operator,
-      secondNum: 0
+      secondNum: null
     })
   }
 
@@ -98,16 +101,18 @@ class App extends React.Component {
 
   // }
 
-
   userEnter(operator, firstNum, secondNum) {
-    
+
+    const firstHalf = Number.parseInt(this.state.firstNum);
+    const secondHalf = Number.parseInt(this.state.secondNum);
+
     if (this.state.operator = '+') {
-      display: this.state.firstNum + this.state.secondNum
+      display: firstHalf + secondHalf
       console.log(typeof this.state.operator);
     } else {
       console.log('not');
     }
-    
+
     this.setState({
       display: this.setState,
       firstNum: null,
