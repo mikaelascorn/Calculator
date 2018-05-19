@@ -42,7 +42,8 @@ class App extends React.Component {
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
-
+      console.log(snapshot.val());
+      
       const equation = snapshot.val();
       const equationArray = [];
 
@@ -53,7 +54,8 @@ class App extends React.Component {
         equationArray.push(equation[item])
       }
       this.setState({
-        equation: equationArray
+        equation: equationArray,
+        firebaseDisplay: snapshot.val()
       })
 
     });
@@ -125,7 +127,8 @@ class App extends React.Component {
     console.log('clear');
     this.setState({
       display: '',
-      equation: []
+      equation: [],
+      firebaseDisplay: snapshot.val()
     })
   }
 
@@ -188,9 +191,10 @@ class App extends React.Component {
             return <Holding
               // going in the array to find they individual key on each item
               key={input.key}
-              display={input.finalFinalResult}
+              firebaseDisplay={input.finalFinalResult}
               equation={input.theAnswer}
-              firebaseKey={input.key} />
+              // firebaseKey={input.key}
+              />
           })}
         </ul>
       </div>
