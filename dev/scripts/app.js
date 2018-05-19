@@ -36,6 +36,8 @@ class App extends React.Component {
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
     this.userEnter = this.userEnter.bind(this);
+    this.updateEquation = this.updateEquation.bind(this);
+    this.updateDisplay = this.updateDisplay.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +62,30 @@ class App extends React.Component {
 
     });
   }
+
+  // convenience functions
+
+  updateEquation(input){
+    let currentEquation = this.state.equation;
+    currentEquation.push(input);
+    this.setState({
+      equation: currentEquation
+    })
+    this.updateDisplay();
+    console.log(this.state.equation);
+  }
+
+  updateDisplay(){
+    let heldEquation = this.state.equation;
+    let equationString = heldEquation.toString();
+    let viewEquation = equationString.replace(/,/g, '');
+
+    this.setState({
+      display: viewEquation
+    })
+  }
+
+  // end convenience functions
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
     console.log(selectedInput);
@@ -70,83 +96,29 @@ class App extends React.Component {
     // flag on state is true, clear array then add new thing. 
 
     if (typeof(selectedInput) === 'number'){
-      // refactor
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
       this.setState({
         lastActionWasOperation: lastAction
+      },()=>{
+        this.updateEquation(selectedInput);
       })
-      let currentEquation = this.state.equation;
-      currentEquation.push(selectedInput);
-      this.setState({
-        equation: currentEquation
-      })
-      console.log(this.state.equation);
+      
     } else {
       if (!this.state.lastActionWasOperation){
-        let currentOperation = this.state.currentOperation;
-        currentOperation = selectedInput;
-        this.setState({
-          currentOperation: currentOperation,
-        },()=>{
-          // refactor
-          let updatedEquation = this.state.equation
-          updatedEquation.push(selectedInput);
+          let lastAction = this.state.lastActionWasOperation;
+          lastAction = true;
           this.setState({
-            equation: updatedEquation,
-            lastActionWasOperation: true
+            lastActionWasOperation: lastAction
+          },()=>{
+            this.updateEquation(selectedInput);
           })
           console.log(this.state.equation);
-        })
       } else {
-
+        // returning false exits the function completely.
         return false;
-
       }
     }
-    let heldEquation = this.state.equation;
-    let equationString = heldEquation.toString();
-    let viewEquation = equationString.replace(/,/g, '');
-
-    this.setState({
-      display: viewEquation
-    })
-
-    // let fixedOperators = this.state.operator;
-
-    //  console.log(typeof(selectedInput));
-    // if (fixedOperators.length === 1) {
-    //   console.log('reached');
-
-    //   fixedOperators.push(selectedInput);
-
-    //   this.setState({
-    //     operator: fixedOperators
-    //   })
-
-    // } else if (this.state.operator !== '') {
-    //   // alert('Incorrect')
-    //   // the previous entry was a string dont go
-    // }
-
-    // hold this and then push to state
-    // let holdingEquation = this.state.equation;
-
-    // dont change state directly
-    // holdingEquation.push(selectedInput);
-
-    // let heldEquation = holdingEquation.toString();
-
-    // let viewEquation = heldEquation.replace(/,/g, '');
-    // console.log(viewEquation);
-
-    // this.setState({
-    //   display: viewEquation,
-    //   equation: holdingEquation
-    // })
-    // console.log(this.state.equation);
-    // console.log(holdingEquation);
-
   }
 
   userEnter(finalEquation) {
@@ -214,7 +186,7 @@ class App extends React.Component {
             <button onClick={() => this.userInput(0)}>0</button>
             <button onClick={() => this.userClear()}>C</button>
             <button onClick={() => this.userInput('+')}>+</button>
-            <button onClick={() => this.userEnter('=')}>=</button>
+            <button onClick={() => this.userEnter()}>=</button>
           </div>
         </form>
         {/* <h2>Result:</h2>
