@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import firebase from 'firebase';
+import firebase from 'firebase';
 
-// var config = {
-//   apiKey: "AIzaSyBdREr20ow0SQ_1ob6hPRGJnTTvnah-Pis",
-//   authDomain: "never-calc-down.firebaseapp.com",
-//   databaseURL: "https://never-calc-down.firebaseio.com",
-//   projectId: "never-calc-down",
-//   storageBucket: "never-calc-down.appspot.com",
-//   messagingSenderId: "234463903284"
-// };
-// firebase.initializeApp(config);
+var config = {
+  apiKey: "AIzaSyBdREr20ow0SQ_1ob6hPRGJnTTvnah-Pis",
+  authDomain: "never-calc-down.firebaseapp.com",
+  databaseURL: "https://never-calc-down.firebaseio.com",
+  projectId: "never-calc-down",
+  storageBucket: "never-calc-down.appspot.com",
+  messagingSenderId: "234463903284"
+};
+firebase.initializeApp(config);
 
 
 // On submit log the calculation to the screen.
@@ -36,34 +36,62 @@ class App extends React.Component {
     this.sendNumber = this.sendNumber.bind(this);
     this.userEnter = this.userEnter.bind(this);
   }
+
+  componentDidMount() {
+    const dbRef = firebase.database().ref('never-calc-down');
+    console.log(dbRef);
+    
+    // use this refence to connect a listener to the database 
+    // after we connect that listener it is always listening
+    dbRef.on('value', (snapshot) => {
+      console.log(snapshot);
+      console.log(snapshot.val());
+
+      const equation = snapshot.val();
+      const equationArray = [];
+
+      for (let item in equation) {
+        console.log(equation);
+        
+        equation[item].key = item;
+        // we push the data at the current keys location to our empty todoArray to be later set in state
+        equationArray.push(equation[item])
+      }
+
+      // const completed = todoArray.filter((todo) => {
+      //   return todo.completed === true;
+      // });
   
-  sendNumber(e) {
-    e.preventDefault();
+      // finally we set the state to be that array of data
+      // this.setState({
+
+      //   display: theAnswer
+      //   // completeTodos: completed
+      // })
+    });
   }
-
-  // maybe change to componentDidMount() for firebase? 
   // this will update the view window when the user presses a number
- userInput(selectedInput) {
-   console.log(selectedInput);
-   let fixedOperators = this.state.operator;
+  userInput(selectedInput) {
+    console.log(selectedInput);
+    let fixedOperators = this.state.operator;
 
-  //  console.log(typeof(selectedInput));
-   if ( fixedOperators.length === 1 ) {
-     console.log('reached');
-     
-    fixedOperators.push(selectedInput);
+    //  console.log(typeof(selectedInput));
+    // if (fixedOperators.length === 1) {
+    //   console.log('reached');
 
-     this.setState({
-       operator: fixedOperators
-     })
-     
-   } else if ( this.state.operator !== '' ) {
-      // alert('Incorrect')
-      // the previous entry was a string dont go
-   }
+    //   fixedOperators.push(selectedInput);
 
-   // hold this and then push to state
-   let holdingEquation = this.state.equation;
+    //   this.setState({
+    //     operator: fixedOperators
+    //   })
+
+    // } else if (this.state.operator !== '') {
+    //   // alert('Incorrect')
+    //   // the previous entry was a string dont go
+    // }
+
+    // hold this and then push to state
+    let holdingEquation = this.state.equation;
 
     // dont change state directly
     holdingEquation.push(selectedInput);
@@ -79,7 +107,7 @@ class App extends React.Component {
     })
     console.log(this.state.equation);
   }
-  
+
   userEnter(finalEquation) {
 
     // if(this.state.equation === '')
@@ -87,30 +115,29 @@ class App extends React.Component {
     let finalResult = (this.state.equation).toString();
     // g is global for regex
     const finalFinalResult = finalResult.replace(/,/g, '');
-    
     console.log(finalFinalResult);
-    
+
     const theAnswer = eval(finalFinalResult);
-  
+
+    const dbRef = firebase.database().ref('Results');
+    // push it in 
+    dbRef.push(finalFinalResult);
+
     this.setState({
-      display: theAnswer      
-    })  
-    
-    // const dbRef = firebase.database().ref('display');
-    // // push it in 
-    // dbRef.push(display);
- 
-    }
-    
+      display: theAnswer
+    })
+
+  }
+
   userClear() {
     console.log('clear');
     this.setState({
       display: '',
       equation: []
-    }) 
+    })
   }
-  
-  sendNumber(e){
+
+  sendNumber(e) {
     e.preventDefault();
   }
 
