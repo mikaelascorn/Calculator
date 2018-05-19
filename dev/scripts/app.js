@@ -37,25 +37,25 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const dbRef = firebase.database().ref('never-calc-down/Question');
-    
+    const dbRef = firebase.database().ref('Question');
+
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
+
       const equation = snapshot.val();
       const equationArray = [];
+
       for (let item in equation) {
         // console.log(equation);
+
         equation[item].key = item;
         equationArray.push(equation[item])
       }
-      console.log(equationArray);
-      
       this.setState({
-        equation: equationArray,
-        display: equationArray
+        equation: equationArray
       })
-    
+
     });
   }
   // this will update the view window when the user presses a number
@@ -87,12 +87,15 @@ class App extends React.Component {
     let heldEquation = holdingEquation.toString();
 
     let viewEquation = heldEquation.replace(/,/g, '');
-    // console.log(viewEquation);
+    console.log(viewEquation);
 
     this.setState({
-      // display: '',
+      display: viewEquation,
       equation: holdingEquation
     })
+    // console.log(this.state.equation);
+    // console.log(holdingEquation);
+
   }
 
   userEnter(finalEquation) {
@@ -112,19 +115,17 @@ class App extends React.Component {
     const dbRef = firebase.database().ref('Question');
     // push it in 
     dbRef.push(wholeAnswer);
-    
+
     this.setState({
-      display: theAnswer,
-      equation: '',
-      firebaseDisplay: wholeAnswer
+      display: theAnswer
     })
   }
 
   userClear() {
-    
+    console.log('clear');
     this.setState({
       display: '',
-      equation: [],
+      equation: []
     })
   }
 
@@ -165,31 +166,31 @@ class App extends React.Component {
             <button onClick={() => this.userEnter('=')}>=</button>
           </div>
         </form>
-        <h2>Result:</h2>
+        {/* <h2>Result:</h2>
         <ul>
           {this.state.equation.map((input) => {
             // these are all passed to the child, this is passing the PROP
             // console.log(input.key)
             return <Result
-            // going in the array to find they individual key on each item
-            key={input.key}
+              // going in the array to find they individual key on each item
+              key={input.key}
             // display={input.finalFinalResult}
             // equation={input.theAnswer}
             // firebaseKey={input.key} />
             />
           })}
-        </ul>
-          <h2>Equations:</h2>
+        </ul> */}
+        <h2>Equations:</h2>
         <ul>
           {this.state.equation.map((input) => {
-            console.log(input.theAnswer);
-              return <Holding
+            // these are all passed to the child, this is passing the PROP
+            // console.log(input.key)
+            return <Holding
               // going in the array to find they individual key on each item
               key={input.key}
               display={input.finalFinalResult}
               equation={input.theAnswer}
-              // firebaseKey={input.key} 
-              />
+              firebaseKey={input.key} />
           })}
         </ul>
       </div>
