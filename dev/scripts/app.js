@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Result from './Result';
+import Holding from './Holding';
+
 import firebase from 'firebase';
 
 var config = {
@@ -25,7 +27,8 @@ class App extends React.Component {
     super();
     this.state = {
       display: '',
-      equation: [],
+      firebaseDisplay: '',
+      equation: []
       // operator: []
     }
     this.userInput = this.userInput.bind(this);
@@ -34,34 +37,31 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const dbRef = firebase.database().ref('never-calc-down');
-    console.log(dbRef);
+    const dbRef = firebase.database().ref('never-calc-down/Question');
     
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
-      console.log(snapshot);
-      console.log(snapshot.val());
 
       const equation = snapshot.val();
       const equationArray = [];
 
       for (let item in equation) {
-        console.log(equation);
+        // console.log(equation);
         
         equation[item].key = item;
-        // we push the data at the current keys location to our empty todoArray to be later set in state
         equationArray.push(equation[item])
       }
       this.setState({
         equation: equationArray
       })
+    
     });
   }
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
     console.log(selectedInput);
-    let fixedOperators = this.state.operator;
+    // let fixedOperators = this.state.operator;
 
     //  console.log(typeof(selectedInput));
     // if (fixedOperators.length === 1) {
@@ -93,7 +93,9 @@ class App extends React.Component {
       display: viewEquation,
       equation: holdingEquation
     })
-    console.log(this.state.equation);
+    // console.log(this.state.equation);
+    // console.log(holdingEquation);
+    
   }
 
   userEnter(finalEquation) {
@@ -101,15 +103,19 @@ class App extends React.Component {
     let finalResult = (this.state.equation).toString();
     // g is global for regex
     const finalFinalResult = finalResult.replace(/,/g, '');
-    console.log(finalFinalResult);
+    // console.log(finalFinalResult);
 
     const theAnswer = eval(finalFinalResult);
 
+    const wholeAnswer = {
+      theAnswer: theAnswer,
+      finalFinalResult: finalFinalResult,
+    }
+
     const dbRef = firebase.database().ref('Question');
     // push it in 
-    dbRef.push(finalFinalResult);
-    dbRef.push(theAnswer);
-
+    dbRef.push(wholeAnswer);
+    
     this.setState({
       display: theAnswer
     })
@@ -160,15 +166,30 @@ class App extends React.Component {
             <button onClick={() => this.userEnter('=')}>=</button>
           </div>
         </form>
-        <h2>Equations:</h2>
+        <h2>Result:</h2>
         <ul>
-          {this.state.equation.map((input, index) => {
+          {this.state.equation.map((input) => {
             // these are all passed to the child, this is passing the PROP
+            // console.log(input.key)
             return <Result
+            // going in the array to find they individual key on each item
+            key={input.key}
+            // display={input.finalFinalResult}
+            // equation={input.theAnswer}
+            // firebaseKey={input.key} />
+            />
+          })}
+        </ul>
+          <h2>Equations:</h2>
+        <ul>
+          {this.state.equation.map((input) => {
+            // these are all passed to the child, this is passing the PROP
+            // console.log(input.key)
+            return <Holding
               // going in the array to find they individual key on each item
               key={input.key}
-              display={input.display}
-              equation={input.equation}
+              display={input.finalFinalResult}
+              equation={input.theAnswer}
               firebaseKey={input.key} />
           })}
         </ul>
