@@ -30,7 +30,6 @@ class App extends React.Component {
       firebaseDisplay: '',
       equation: [],
       savedEquations: [],
-      currentOperation: null,
       lastActionWasOperation: false,
     }
     this.userInput = this.userInput.bind(this);
@@ -64,7 +63,6 @@ class App extends React.Component {
   }
 
   // convenience functions
-
   updateEquation(input){
     let currentEquation = this.state.equation;
     currentEquation.push(input);
@@ -84,17 +82,14 @@ class App extends React.Component {
       display: viewEquation
     })
   }
-
   // end convenience functions
+
+
+
+
+
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
-    console.log(selectedInput);
-
-    // check if it's a number, if its a number push to array
-    
-    // if flag on state is false - allow it into state
-    // flag on state is true, clear array then add new thing. 
-
     if (typeof(selectedInput) === 'number'){
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
