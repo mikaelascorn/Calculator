@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Result from './Result';
 import firebase from 'firebase';
 
 var config = {
@@ -12,17 +13,12 @@ var config = {
 };
 firebase.initializeApp(config);
 
-
 // On submit log the calculation to the screen.
 // Start with numbers on the screen, individual buttons, they all have one state, and it gets altered and it updates on submit/enter/=
 // Calculator is the APP and the notepad is the child Component?
 // Make it work and then set up firebase
 // Strech goal is a notepad on the sign, a full bugeting app, strech strech is a signin
 
-// let user push buttons
-// equate the buttons to values 
-// create a string - concat 
-// return the result to user when they press enter
 class App extends React.Component {
 
   constructor() {
@@ -30,7 +26,7 @@ class App extends React.Component {
     this.state = {
       display: '',
       equation: [],
-      operator: []
+      // operator: []
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -57,17 +53,9 @@ class App extends React.Component {
         // we push the data at the current keys location to our empty todoArray to be later set in state
         equationArray.push(equation[item])
       }
-
-      // const completed = todoArray.filter((todo) => {
-      //   return todo.completed === true;
-      // });
-  
-      // finally we set the state to be that array of data
-      // this.setState({
-
-      //   display: theAnswer
-      //   // completeTodos: completed
-      // })
+      this.setState({
+        equation: equationArray
+      })
     });
   }
   // this will update the view window when the user presses a number
@@ -110,7 +98,6 @@ class App extends React.Component {
 
   userEnter(finalEquation) {
 
-
     let finalResult = (this.state.equation).toString();
     // g is global for regex
     const finalFinalResult = finalResult.replace(/,/g, '');
@@ -118,14 +105,14 @@ class App extends React.Component {
 
     const theAnswer = eval(finalFinalResult);
 
-    const dbRef = firebase.database().ref('Results');
+    const dbRef = firebase.database().ref('Question');
     // push it in 
     dbRef.push(finalFinalResult);
+    dbRef.push(theAnswer);
 
     this.setState({
       display: theAnswer
     })
-
   }
 
   userClear() {
@@ -173,6 +160,18 @@ class App extends React.Component {
             <button onClick={() => this.userEnter('=')}>=</button>
           </div>
         </form>
+        <h2>Equations:</h2>
+        <ul>
+          {this.state.equation.map((input, index) => {
+            // these are all passed to the child, this is passing the PROP
+            return <Result
+              // going in the array to find they individual key on each item
+              key={input.key}
+              display={input.display}
+              equation={input.equation}
+              firebaseKey={input.key} />
+          })}
+        </ul>
       </div>
     )
   }
