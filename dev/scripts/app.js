@@ -110,7 +110,6 @@ class App extends React.Component {
 
   userEnter(finalEquation) {
 
-    // if(this.state.equation === '')
 
     let finalResult = (this.state.equation).toString();
     // g is global for regex
