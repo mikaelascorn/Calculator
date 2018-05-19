@@ -42,18 +42,18 @@ class App extends React.Component {
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
-
       const equation = snapshot.val();
       const equationArray = [];
-
       for (let item in equation) {
         // console.log(equation);
-        
         equation[item].key = item;
         equationArray.push(equation[item])
       }
+      console.log(equationArray);
+      
       this.setState({
-        equation: equationArray
+        equation: equationArray,
+        display: equationArray
       })
     
     });
@@ -87,15 +87,12 @@ class App extends React.Component {
     let heldEquation = holdingEquation.toString();
 
     let viewEquation = heldEquation.replace(/,/g, '');
-    console.log(viewEquation);
+    // console.log(viewEquation);
 
     this.setState({
-      display: viewEquation,
+      // display: '',
       equation: holdingEquation
     })
-    // console.log(this.state.equation);
-    // console.log(holdingEquation);
-    
   }
 
   userEnter(finalEquation) {
@@ -117,15 +114,17 @@ class App extends React.Component {
     dbRef.push(wholeAnswer);
     
     this.setState({
-      display: theAnswer
+      display: theAnswer,
+      equation: '',
+      firebaseDisplay: wholeAnswer
     })
   }
 
   userClear() {
-    console.log('clear');
+    
     this.setState({
       display: '',
-      equation: []
+      equation: [],
     })
   }
 
@@ -183,14 +182,14 @@ class App extends React.Component {
           <h2>Equations:</h2>
         <ul>
           {this.state.equation.map((input) => {
-            // these are all passed to the child, this is passing the PROP
-            // console.log(input.key)
-            return <Holding
+            console.log(input.theAnswer);
+              return <Holding
               // going in the array to find they individual key on each item
               key={input.key}
               display={input.finalFinalResult}
               equation={input.theAnswer}
-              firebaseKey={input.key} />
+              // firebaseKey={input.key} 
+              />
           })}
         </ul>
       </div>
