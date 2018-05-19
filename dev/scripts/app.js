@@ -28,8 +28,10 @@ class App extends React.Component {
     this.state = {
       display: '',
       firebaseDisplay: '',
-      equation: []
-      // operator: []
+      equation: [],
+      savedEquations: [],
+      currentOperation: null,
+      lastActionWasOperation: false,
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -43,17 +45,17 @@ class App extends React.Component {
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
 
-      const equation = snapshot.val();
+      const equations = snapshot.val();
       const equationArray = [];
 
-      for (let item in equation) {
+      for (let item in equations) {
         // console.log(equation);
 
-        equation[item].key = item;
-        equationArray.push(equation[item])
+        equations[item].key = item;
+        equationArray.push(equations[item])
       }
       this.setState({
-        equation: equationArray
+        savedEquations: equationArray
       })
 
     });
@@ -61,6 +63,55 @@ class App extends React.Component {
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
     console.log(selectedInput);
+
+    // check if it's a number, if its a number push to array
+    
+    // if flag on state is false - allow it into state
+    // flag on state is true, clear array then add new thing. 
+
+    if (typeof(selectedInput) === 'number'){
+      // refactor
+      let lastAction = this.state.lastActionWasOperation;
+      lastAction = false;
+      this.setState({
+        lastActionWasOperation: lastAction
+      })
+      let currentEquation = this.state.equation;
+      currentEquation.push(selectedInput);
+      this.setState({
+        equation: currentEquation
+      })
+      console.log(this.state.equation);
+    } else {
+      if (!this.state.lastActionWasOperation){
+        let currentOperation = this.state.currentOperation;
+        currentOperation = selectedInput;
+        this.setState({
+          currentOperation: currentOperation,
+        },()=>{
+          // refactor
+          let updatedEquation = this.state.equation
+          updatedEquation.push(selectedInput);
+          this.setState({
+            equation: updatedEquation,
+            lastActionWasOperation: true
+          })
+          console.log(this.state.equation);
+        })
+      } else {
+
+        return false;
+
+      }
+    }
+    let heldEquation = this.state.equation;
+    let equationString = heldEquation.toString();
+    let viewEquation = equationString.replace(/,/g, '');
+
+    this.setState({
+      display: viewEquation
+    })
+
     // let fixedOperators = this.state.operator;
 
     //  console.log(typeof(selectedInput));
@@ -79,20 +130,20 @@ class App extends React.Component {
     // }
 
     // hold this and then push to state
-    let holdingEquation = this.state.equation;
+    // let holdingEquation = this.state.equation;
 
     // dont change state directly
-    holdingEquation.push(selectedInput);
+    // holdingEquation.push(selectedInput);
 
-    let heldEquation = holdingEquation.toString();
+    // let heldEquation = holdingEquation.toString();
 
-    let viewEquation = heldEquation.replace(/,/g, '');
-    console.log(viewEquation);
+    // let viewEquation = heldEquation.replace(/,/g, '');
+    // console.log(viewEquation);
 
-    this.setState({
-      display: viewEquation,
-      equation: holdingEquation
-    })
+    // this.setState({
+    //   display: viewEquation,
+    //   equation: holdingEquation
+    // })
     // console.log(this.state.equation);
     // console.log(holdingEquation);
 
