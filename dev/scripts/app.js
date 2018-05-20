@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Result from './Result';
+import Buttons from './Buttons';
 import Holding from './Holding';
 
 import firebase from 'firebase';
@@ -115,9 +115,7 @@ class App extends React.Component {
     // g is global for regex
     const finalFinalResult = finalResult.replace(/,/g, '');
     // console.log(finalFinalResult);
-
     const theAnswer = eval(finalFinalResult);
-
     const wholeAnswer = {
       theAnswer: theAnswer,
       finalFinalResult: finalFinalResult,
@@ -126,7 +124,6 @@ class App extends React.Component {
     const dbRef = firebase.database().ref('Question');
     // push it in 
     dbRef.push(wholeAnswer);
-
     this.setState({
       display: theAnswer
     })
@@ -177,20 +174,6 @@ class App extends React.Component {
             <button onClick={() => this.userEnter()}>=</button>
           </div>
         </form>
-        {/* <h2>Result:</h2>
-        <ul>
-          {this.state.equation.map((input) => {
-            // these are all passed to the child, this is passing the PROP
-            // console.log(input.key)
-            return <Result
-              // going in the array to find they individual key on each item
-              key={input.key}
-            // display={input.finalFinalResult}
-            // equation={input.theAnswer}
-            // firebaseKey={input.key} />
-            />
-          })}
-        </ul> */}
         <h2>Equations:</h2>
         <ul>
           {this.state.savedEquations.map((input) => {
@@ -204,8 +187,7 @@ class App extends React.Component {
               firebaseKey={input.key}
               firebaseDisplay={input.finalFinalResult}
               result={input.theAnswer}
-              firebaseKey={input.key}
-              
+              removeTodo={this.removeTodo}
             />
             console.log();
             
