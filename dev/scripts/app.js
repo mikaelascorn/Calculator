@@ -41,7 +41,6 @@ class App extends React.Component {
 
   componentDidMount() {
     const dbRef = firebase.database().ref('Question');
-
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
@@ -51,7 +50,6 @@ class App extends React.Component {
 
       for (let item in equations) {
         // console.log(equation);
-
         equations[item].key = item;
         equationArray.push(equations[item])
       }
@@ -139,7 +137,6 @@ class App extends React.Component {
     this.setState({
       display: '',
       equation: []
-      // firebaseDisplay: snapshot.val()
     })
   }
 
@@ -196,7 +193,7 @@ class App extends React.Component {
         </ul> */}
         <h2>Equations:</h2>
         <ul>
-          {this.state.equation.map((input) => {
+          {this.state.savedEquations.map((input) => {
             // these are all passed to the child, this is passing the PROP
             console.log(input)
             return <Holding
@@ -207,9 +204,13 @@ class App extends React.Component {
               firebaseKey={input.key}
               firebaseDisplay={input.finalFinalResult}
               result={input.theAnswer}
-            // firebaseKey={input.key}
+              firebaseKey={input.key}
+              
             />
+            console.log();
+            
           })}
+          
         </ul>
       </div>
     )
