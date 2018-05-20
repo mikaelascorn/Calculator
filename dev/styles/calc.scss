@@ -1,0 +1,18 @@
+form {
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+  border: 5px solid transparent;
+  padding: 0px;
+  margin: 0px auto;
+  width: 35%;
+  button {
+    margin: 10px;
+    padding: 15px;
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+    border: 5px solid transparent;
+    min-width: 52px;
+  }
+  input {
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+    border: 5px solid transparent;
+  }
+}

@@ -38,7 +38,6 @@ class App extends React.Component {
     this.userEnter = this.userEnter.bind(this);
     this.updateEquation = this.updateEquation.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
-    // this.removeEquation = this.removeEquation.bind(this);
   }
 
   componentDidMount() {
@@ -46,10 +45,8 @@ class App extends React.Component {
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
-
       const equations = snapshot.val();
       const equationArray = [];
-
       for (let item in equations) {
         // console.log(equation);
         equations[item].key = item;
@@ -58,7 +55,6 @@ class App extends React.Component {
       const completed = equationArray.filter((equation) => {
         return equation.completed === true;
       });
-
       this.setState({
         savedEquations: equationArray
       })
@@ -88,6 +84,8 @@ class App extends React.Component {
   // end convenience functions
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
+    console.log('click');
+    
     if (typeof (selectedInput) === 'number') {
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
@@ -141,7 +139,6 @@ class App extends React.Component {
   }
 
   removeEquation(keyToRemove) {
-    console.log(keyToRemove);
     firebase.database().ref(`Question/${keyToRemove}`).remove();
   }
 
@@ -189,6 +186,7 @@ class App extends React.Component {
             <button onClick={() => this.userInput('+')}>+</button>
             <button onClick={() => this.userEnter()}>=</button>
           </div>
+
         </form>
         <h2>Equations:</h2>
         <ul>

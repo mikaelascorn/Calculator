@@ -1,0 +1,35 @@
+@mixin fontSize($scale) {
+	font-size: $scale * 1px;
+	font-size: ($scale / 10) * 1rem;
+}
+html {
+  font-size: 62.5%;
+  color: #333333;
+  background-color: #f7f7f7;
+}
+body {	
+  @include fontSize(16);	
+  margin: 0 auto;
+  text-align: center;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+  @include fontSize(28);
+  transform: rotateX(180%);	
+}
+h2 {
+  font-family: 'Playfair Display', serif;
+  @include fontSize(23);
+  padding: 25px 0px 5px;
+}
+ul li, input {
+  font-family: 'Montserrat', sans-serif;
+  @include fontSize(18);
+}
+
+
+// #dbcdc5
+// #9ac5ab
+// #7a7a7a
+// #333333
+// #f7f7f7

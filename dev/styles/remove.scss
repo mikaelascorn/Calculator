@@ -1,0 +1,21 @@
+ul li {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: row wrap;
+  justify-content: center;
+  padding-top: 10px;
+}
+ul {
+  padding: 0px;
+  button {
+    border: 5px solid transparent;
+    background-color: transparent;
+  }
+}
+p {
+  letter-spacing: 0.1rem;
+  text-align: left;
+}
+.equals {
+  padding: 0px 5px;
+}

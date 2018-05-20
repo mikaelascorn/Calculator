@@ -4,8 +4,8 @@ const Remove = (props) => {
   console.log(props);
   return (
     <li>
-      <p>{props.display}<span>=</span><span>{props.equation}</span></p>
       <button onClick={() => props.removeEquation(props.firebaseKey)}>❌</button>
+      <p>{props.display}<span className="equals">=</span><span>{props.equation}</span></p>
     </li>
   )
 };
