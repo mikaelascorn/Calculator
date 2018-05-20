@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   // convenience functions
-  updateEquation(input){
+  updateEquation(input) {
     let currentEquation = this.state.equation;
     currentEquation.push(input);
     this.setState({
@@ -72,7 +72,7 @@ class App extends React.Component {
     console.log(this.state.equation);
   }
 
-  updateDisplay(){
+  updateDisplay() {
     let heldEquation = this.state.equation;
     let equationString = heldEquation.toString();
     let viewEquation = equationString.replace(/,/g, '');
@@ -84,39 +84,39 @@ class App extends React.Component {
   // end convenience functions
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
-    if (typeof(selectedInput) === 'number'){
+    if (typeof (selectedInput) === 'number') {
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
       this.setState({
         lastActionWasOperation: lastAction,
         lastInputOperation: null
-      },()=>{
+      }, () => {
         this.updateEquation(selectedInput);
       })
-  } else {
-        if (this.state.lastInputOperation === null){
-          let currentOperation = this.state.lastInputOperation;
-          currentOperation = selectedInput;
-          this.setState({
-              lastInputOperation: currentOperation
-          },()=>{
-            this.updateEquation(selectedInput);
-          });
+    } else {
+      if (this.state.lastInputOperation === null) {
+        let currentOperation = this.state.lastInputOperation;
+        currentOperation = selectedInput;
+        this.setState({
+          lastInputOperation: currentOperation
+        }, () => {
+          this.updateEquation(selectedInput);
+        });
+      } else {
+        if (this.state.lastInputOperation === selectedInput) {
+          return false;
         } else {
-          if (this.state.lastInputOperation === selectedInput){
-            return false;
-          } else {
-            let currentEquation = this.state.equation;
-            currentEquation.pop();
-            currentEquation.push(selectedInput);
-            this.setState({
-              equation: currentEquation
-            })
-            this.updateDisplay();
-          }
+          let currentEquation = this.state.equation;
+          currentEquation.pop();
+          currentEquation.push(selectedInput);
+          this.setState({
+            equation: currentEquation
+          })
+          this.updateDisplay();
         }
+      }
       // })
-      
+
     }
   }
 
@@ -138,6 +138,10 @@ class App extends React.Component {
     this.setState({
       display: theAnswer
     })
+  }
+  removeEquation(keyToRemove) {
+    console.log(keyToRemove);
+    firebase.database().ref(`Question/${keyToRemove}`).remove();
   }
 
   userClear() {
@@ -198,12 +202,12 @@ class App extends React.Component {
               firebaseKey={input.key}
               firebaseDisplay={input.finalFinalResult}
               result={input.theAnswer}
-              removeTodo={this.removeTodo}
+              removeEquation={this.savedEquations}
             />
             console.log();
-            
+
           })}
-          
+
         </ul>
       </div>
     )
