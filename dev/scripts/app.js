@@ -30,6 +30,7 @@ class App extends React.Component {
       firebaseDisplay: '',
       equation: [],
       savedEquations: [],
+      lastInputOperation: null,
       lastActionWasOperation: false,
     }
     this.userInput = this.userInput.bind(this);
@@ -87,25 +88,35 @@ class App extends React.Component {
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
       this.setState({
-        lastActionWasOperation: lastAction
+        lastActionWasOperation: lastAction,
+        lastInputOperation: null
       },()=>{
         this.updateEquation(selectedInput);
       })
-      
-    } else {
-      if (!this.state.lastActionWasOperation){
-          let lastAction = this.state.lastActionWasOperation;
-          lastAction = true;
+  } else {
+        if (this.state.lastInputOperation === null){
+          let currentOperation = this.state.lastInputOperation;
+          currentOperation = selectedInput;
           this.setState({
-            lastActionWasOperation: lastAction
+              lastInputOperation: currentOperation
           },()=>{
             this.updateEquation(selectedInput);
-          })
-          console.log(this.state.equation);
-      } else {
-        // returning false exits the function completely.
-        return false;
-      }
+          });
+        } else {
+          if (this.state.lastInputOperation === selectedInput){
+            return false;
+          } else {
+            let currentEquation = this.state.equation;
+            currentEquation.pop();
+            currentEquation.push(selectedInput);
+            this.setState({
+              equation: currentEquation
+            })
+            this.updateDisplay();
+          }
+        }
+      // })
+      
     }
   }
 
