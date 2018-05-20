@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Buttons from './Buttons';
-import Holding from './Holding';
+import Remove from './Remove';
 
 import firebase from 'firebase';
 
@@ -31,13 +31,14 @@ class App extends React.Component {
       equation: [],
       savedEquations: [],
       lastInputOperation: null,
-      lastActionWasOperation: false,
+      lastActionWasOperation: false
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
     this.userEnter = this.userEnter.bind(this);
     this.updateEquation = this.updateEquation.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
+    // this.removeEquation = this.removeEquation.bind(this);
   }
 
   componentDidMount() {
@@ -54,10 +55,13 @@ class App extends React.Component {
         equations[item].key = item;
         equationArray.push(equations[item])
       }
+      const completed = equationArray.filter((equation) => {
+        return equation.completed === true;
+      });
+
       this.setState({
         savedEquations: equationArray
       })
-
     });
   }
 
@@ -76,11 +80,11 @@ class App extends React.Component {
     let heldEquation = this.state.equation;
     let equationString = heldEquation.toString();
     let viewEquation = equationString.replace(/,/g, '');
-
     this.setState({
       display: viewEquation
     })
   }
+
   // end convenience functions
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
@@ -116,12 +120,10 @@ class App extends React.Component {
         }
       }
       // })
-
     }
   }
 
   userEnter(finalEquation) {
-
     let finalResult = (this.state.equation).toString();
     // g is global for regex
     const finalFinalResult = finalResult.replace(/,/g, '');
@@ -131,14 +133,13 @@ class App extends React.Component {
       theAnswer: theAnswer,
       finalFinalResult: finalFinalResult,
     }
-
     const dbRef = firebase.database().ref('Question');
-    // push it in 
     dbRef.push(wholeAnswer);
     this.setState({
       display: theAnswer
     })
   }
+
   removeEquation(keyToRemove) {
     console.log(keyToRemove);
     firebase.database().ref(`Question/${keyToRemove}`).remove();
@@ -194,7 +195,7 @@ class App extends React.Component {
           {this.state.savedEquations.map((input) => {
             // these are all passed to the child, this is passing the PROP
             console.log(input)
-            return <Holding
+            return <Remove
               // going in the array to find they individual key on each item
               key={input.key}
               display={input.finalFinalResult}
@@ -202,12 +203,9 @@ class App extends React.Component {
               firebaseKey={input.key}
               firebaseDisplay={input.finalFinalResult}
               result={input.theAnswer}
-              removeEquation={this.savedEquations}
+              removeEquation={this.removeEquation}
             />
-            console.log();
-
           })}
-
         </ul>
       </div>
     )
