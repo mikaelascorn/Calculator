@@ -27,12 +27,16 @@ class App extends React.Component {
     super();
     this.state = {
       display: '',
+      firebaseDisplay: '',
       equation: [],
-      operator: false
+      savedEquations: [],
+      lastActionWasOperation: false,
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
     this.userEnter = this.userEnter.bind(this);
+    this.updateEquation = this.updateEquation.bind(this);
+    this.updateDisplay = this.updateDisplay.bind(this);
   }
 
   componentDidMount() {
@@ -41,59 +45,70 @@ class App extends React.Component {
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
-      // console.log(snapshot.val());
 
-      const equation = snapshot.val();
+      const equations = snapshot.val();
       const equationArray = [];
 
-      for (let item in equation) {
+      for (let item in equations) {
         // console.log(equation);
 
-        equation[item].key = item;
-        equationArray.push(equation[item])
+        equations[item].key = item;
+        equationArray.push(equations[item])
       }
       this.setState({
-        equation: equationArray
+        savedEquations: equationArray
       })
 
     });
   }
-  // this will update the view window when the user presses a number
-  userInput(selectedInput) {
-    console.log(selectedInput);
-    let fixedOperators = this.state.operator;
 
-    // //  console.log(typeof(selectedInput));
-    // if (fixedOperators.length === 1) {
-    //   console.log('reached');
+  // convenience functions
+  updateEquation(input){
+    let currentEquation = this.state.equation;
+    currentEquation.push(input);
+    this.setState({
+      equation: currentEquation
+    })
+    this.updateDisplay();
+    console.log(this.state.equation);
+  }
 
-    //   fixedOperators.push(selectedInput);
-
-    //   this.setState({
-    //     operator: fixedOperators
-    //   })
-
-    // } else if (this.state.operator !== '') {
-    //   // alert('Incorrect')
-    //   // the previous entry was a string dont go
-    // }
-
-    // hold this and then push to state
-    let holdingEquation = this.state.equation;
-
-    // dont change state directly
-    holdingEquation.push(selectedInput);
-
-    let heldEquation = holdingEquation.toString();
-
-    let viewEquation = heldEquation.replace(/,/g, '');
-    console.log(viewEquation);
+  updateDisplay(){
+    let heldEquation = this.state.equation;
+    let equationString = heldEquation.toString();
+    let viewEquation = equationString.replace(/,/g, '');
 
     this.setState({
-      display: viewEquation,
-      equation: holdingEquation
+      display: viewEquation
     })
-    console.log(this.state.equation);
+  }
+  // end convenience functions
+  // this will update the view window when the user presses a number
+  userInput(selectedInput) {
+    if (typeof(selectedInput) === 'number'){
+      let lastAction = this.state.lastActionWasOperation;
+      lastAction = false;
+      this.setState({
+        lastActionWasOperation: lastAction
+      },()=>{
+        this.updateEquation(selectedInput);
+      })
+      
+    } else {
+      if (!this.state.lastActionWasOperation){
+          let lastAction = this.state.lastActionWasOperation;
+          lastAction = true;
+          this.setState({
+            lastActionWasOperation: lastAction
+          },()=>{
+            this.updateEquation(selectedInput);
+          })
+          console.log(this.state.equation);
+      } else {
+        // returning false exits the function completely.
+        return false;
+      }
+    }
   }
 
   userEnter(finalEquation) {
@@ -162,7 +177,7 @@ class App extends React.Component {
             <button onClick={() => this.userInput(0)}>0</button>
             <button onClick={() => this.userClear()}>C</button>
             <button onClick={() => this.userInput('+')}>+</button>
-            <button onClick={() => this.userEnter('=')}>=</button>
+            <button onClick={() => this.userEnter()}>=</button>
           </div>
         </form>
         {/* <h2>Result:</h2>
@@ -187,6 +202,9 @@ class App extends React.Component {
             return <Holding
               // going in the array to find they individual key on each item
               key={input.key}
+              display={input.finalFinalResult}
+              equation={input.theAnswer}
+              firebaseKey={input.key}
               firebaseDisplay={input.finalFinalResult}
               result={input.theAnswer}
             // firebaseKey={input.key}
