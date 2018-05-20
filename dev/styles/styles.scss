@@ -15,7 +15,6 @@ body {
 h1 {
   font-family: 'Playfair Display', serif;
   @include fontSize(28);
-  transform: rotateX(180%);	
 }
 h2 {
   font-family: 'Playfair Display', serif;

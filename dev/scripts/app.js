@@ -31,7 +31,8 @@ class App extends React.Component {
       equation: [],
       savedEquations: [],
       lastInputOperation: null,
-      lastActionWasOperation: false
+      lastActionWasOperation: false,
+      userEnter: false
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -40,6 +41,7 @@ class App extends React.Component {
     this.updateDisplay = this.updateDisplay.bind(this);
   }
 
+  // send to firebase
   componentDidMount() {
     const dbRef = firebase.database().ref('Question');
     // use this refence to connect a listener to the database 
@@ -62,20 +64,24 @@ class App extends React.Component {
   }
 
   // convenience functions
+  // Accepts what user enters and pushes the results into an array
   updateEquation(input) {
     let currentEquation = this.state.equation;
+    // console.log(input);
     currentEquation.push(input);
     this.setState({
       equation: currentEquation
     })
     this.updateDisplay();
-    console.log(this.state.equation);
+    // console.log(this.state.equation);
   }
 
+  // updates the display of the function to look correctly
   updateDisplay() {
     let heldEquation = this.state.equation;
     let equationString = heldEquation.toString();
     let viewEquation = equationString.replace(/,/g, '');
+    console.log(viewEquation);
     this.setState({
       display: viewEquation
     })
@@ -83,9 +89,8 @@ class App extends React.Component {
 
   // end convenience functions
   // this will update the view window when the user presses a number
+  // handles only what the user pushes
   userInput(selectedInput) {
-    console.log('click');
-    
     if (typeof (selectedInput) === 'number') {
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
@@ -93,22 +98,27 @@ class App extends React.Component {
         lastActionWasOperation: lastAction,
         lastInputOperation: null
       }, () => {
-        this.updateEquation(selectedInput);
+        this.updateEquation(selectedInput);        
       })
     } else {
       if (this.state.lastInputOperation === null) {
         let currentOperation = this.state.lastInputOperation;
         currentOperation = selectedInput;
+        console.log(currentOperation);
         this.setState({
           lastInputOperation: currentOperation
         }, () => {
           this.updateEquation(selectedInput);
         });
       } else {
-        if (this.state.lastInputOperation === selectedInput) {
+        if (this.state.lastInputOperation === selectedInput) {                    
           return false;
+          
         } else {
           let currentEquation = this.state.equation;
+          console.log(currentEquation);
+          console.log(selectedInput);
+          console.log(currentEquation);
           currentEquation.pop();
           currentEquation.push(selectedInput);
           this.setState({
@@ -121,29 +131,45 @@ class App extends React.Component {
     }
   }
 
+  //  evals the final equation when they hit enter
+  // here i need to add an if statement to evaluate if they previously entered a string
+  // if so pop that out and push in the equal sign
+  // if not then run like normal
   userEnter(finalEquation) {
-    let finalResult = (this.state.equation).toString();
-    // g is global for regex
-    const finalFinalResult = finalResult.replace(/,/g, '');
-    // console.log(finalFinalResult);
-    const theAnswer = eval(finalFinalResult);
-    const wholeAnswer = {
-      theAnswer: theAnswer,
-      finalFinalResult: finalFinalResult,
+    if ( this.state.lastInputOperation === null ) {
+      // console.log(finalEquation);
+      let finalResult = (this.state.equation).toString();
+      // g is global for regex
+      const finalFinalResult = finalResult.replace(/,/g, '');
+      // console.log(finalFinalResult);
+      const theAnswer = eval(finalFinalResult);
+      const wholeAnswer = {
+        theAnswer: theAnswer,
+        finalFinalResult: finalFinalResult,
+      } 
+      const dbRef = firebase.database().ref('Question');
+      dbRef.push(wholeAnswer);
+      this.setState({
+        display: theAnswer
+      })
+    } else {
+      let currentEquation = this.state.equation;
+      console.log(currentEquation);
+      currentEquation.pop();
+      currentEquation.push(finalEquation);   
+      
+      this.setState({
+        display: finalEquation
+      })
+      this.updateDisplay();
+      }
     }
-    const dbRef = firebase.database().ref('Question');
-    dbRef.push(wholeAnswer);
-    this.setState({
-      display: theAnswer
-    })
-  }
 
   removeEquation(keyToRemove) {
     firebase.database().ref(`Question/${keyToRemove}`).remove();
   }
 
   userClear() {
-    console.log('clear');
     this.setState({
       display: '',
       equation: []
@@ -184,15 +210,14 @@ class App extends React.Component {
             <button onClick={() => this.userInput(0)}>0</button>
             <button onClick={() => this.userClear()}>C</button>
             <button onClick={() => this.userInput('+')}>+</button>
-            <button onClick={() => this.userEnter()}>=</button>
+            <button onClick={() => this.userEnter('=')}>=</button>
           </div>
-
         </form>
         <h2>Equations:</h2>
         <ul>
           {this.state.savedEquations.map((input) => {
             // these are all passed to the child, this is passing the PROP
-            console.log(input)
+            // console.log(input)
             return <Remove
               // going in the array to find they individual key on each item
               key={input.key}
@@ -205,6 +230,8 @@ class App extends React.Component {
             />
           })}
         </ul>
+        <h2>Budgeting Notes:</h2>
+
       </div>
     )
   }

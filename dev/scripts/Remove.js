@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Remove = (props) => {
-  console.log(props);
+  // console.log(props);
   return (
     <li>
       <button onClick={() => props.removeEquation(props.firebaseKey)}>❌</button>
