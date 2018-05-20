@@ -27,9 +27,8 @@ class App extends React.Component {
     super();
     this.state = {
       display: '',
-      firebaseDisplay: '',
-      equation: []
-      // operator: []
+      equation: [],
+      operator: false
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -42,8 +41,8 @@ class App extends React.Component {
     // use this refence to connect a listener to the database 
     // after we connect that listener it is always listening
     dbRef.on('value', (snapshot) => {
-      console.log(snapshot.val());
-      
+      // console.log(snapshot.val());
+
       const equation = snapshot.val();
       const equationArray = [];
 
@@ -54,8 +53,7 @@ class App extends React.Component {
         equationArray.push(equation[item])
       }
       this.setState({
-        equation: equationArray,
-        firebaseDisplay: snapshot.val()
+        equation: equationArray
       })
 
     });
@@ -63,9 +61,9 @@ class App extends React.Component {
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
     console.log(selectedInput);
-    // let fixedOperators = this.state.operator;
+    let fixedOperators = this.state.operator;
 
-    //  console.log(typeof(selectedInput));
+    // //  console.log(typeof(selectedInput));
     // if (fixedOperators.length === 1) {
     //   console.log('reached');
 
@@ -95,9 +93,7 @@ class App extends React.Component {
       display: viewEquation,
       equation: holdingEquation
     })
-    // console.log(this.state.equation);
-    // console.log(holdingEquation);
-
+    console.log(this.state.equation);
   }
 
   userEnter(finalEquation) {
@@ -127,8 +123,8 @@ class App extends React.Component {
     console.log('clear');
     this.setState({
       display: '',
-      equation: [],
-      firebaseDisplay: snapshot.val()
+      equation: []
+      // firebaseDisplay: snapshot.val()
     })
   }
 
@@ -187,14 +183,14 @@ class App extends React.Component {
         <ul>
           {this.state.equation.map((input) => {
             // these are all passed to the child, this is passing the PROP
-            // console.log(input.key)
+            console.log(input)
             return <Holding
               // going in the array to find they individual key on each item
               key={input.key}
               firebaseDisplay={input.finalFinalResult}
-              equation={input.theAnswer}
-              // firebaseKey={input.key}
-              />
+              result={input.theAnswer}
+            // firebaseKey={input.key}
+            />
           })}
         </ul>
       </div>

@@ -5,13 +5,13 @@ const Holding = (props) => {
 
   return (
     <li>
-      <p>{props.display}</p>
+      <p>{props.equation}<span>{props.display}</span></p>
       {/* {console.log(props.display)} */}
 
-      <p>{props.equation}</p>
+      {/* <p>{props.equation}</p> */}
       {/* {      console.log(props.equation) */}
 
-      <p>{props.firebaseKey}</p>
+      {/* <p>{props.firebaseKey}</p> */}
       {/* {console.log(props.firebaseKey)} */}
 
       {/* <button onClick={() => props.removeEquation(props.firebaseKey)}>Remove!!</button> */}
