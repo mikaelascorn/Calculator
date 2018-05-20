@@ -83,11 +83,6 @@ class App extends React.Component {
     })
   }
   // end convenience functions
-
-
-
-
-
   // this will update the view window when the user presses a number
   userInput(selectedInput) {
     if (typeof(selectedInput) === 'number'){
@@ -144,6 +139,7 @@ class App extends React.Component {
     this.setState({
       display: '',
       equation: []
+      // firebaseDisplay: snapshot.val()
     })
   }
 
@@ -202,13 +198,17 @@ class App extends React.Component {
         <ul>
           {this.state.equation.map((input) => {
             // these are all passed to the child, this is passing the PROP
-            // console.log(input.key)
+            console.log(input)
             return <Holding
               // going in the array to find they individual key on each item
               key={input.key}
               display={input.finalFinalResult}
               equation={input.theAnswer}
-              firebaseKey={input.key} />
+              firebaseKey={input.key}
+              firebaseDisplay={input.finalFinalResult}
+              result={input.theAnswer}
+            // firebaseKey={input.key}
+            />
           })}
         </ul>
       </div>
