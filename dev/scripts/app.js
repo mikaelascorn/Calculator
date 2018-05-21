@@ -32,13 +32,16 @@ class App extends React.Component {
       savedEquations: [],
       lastInputOperation: null,
       lastActionWasOperation: false,
-      userEnter: false
+      userEnter: false,
+      didIsayHello: false
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
     this.userEnter = this.userEnter.bind(this);
     this.updateEquation = this.updateEquation.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
+    this.hello = this.hello.bind(this);
+    // this.userFinal = this.userFinal.bind(this);
   }
 
   // send to firebase
@@ -67,7 +70,7 @@ class App extends React.Component {
   // Accepts what user enters and pushes the results into an array
   updateEquation(input) {
     let currentEquation = this.state.equation;
-    // console.log(input);
+    console.log(input);
     currentEquation.push(input);
     this.setState({
       equation: currentEquation
@@ -89,7 +92,7 @@ class App extends React.Component {
 
   // end convenience functions
   // this will update the view window when the user presses a number
-  // handles only what the user pushes
+  // handles only what the user pushes 
   userInput(selectedInput) {
     if (typeof (selectedInput) === 'number') {
       let lastAction = this.state.lastActionWasOperation;
@@ -135,35 +138,27 @@ class App extends React.Component {
   // here i need to add an if statement to evaluate if they previously entered a string
   // if so pop that out and push in the equal sign
   // if not then run like normal
+
   userEnter(finalEquation) {
-    if ( this.state.lastInputOperation === null ) {
-      // console.log(finalEquation);
-      let finalResult = (this.state.equation).toString();
-      // g is global for regex
-      const finalFinalResult = finalResult.replace(/,/g, '');
-      // console.log(finalFinalResult);
-      const theAnswer = eval(finalFinalResult);
-      const wholeAnswer = {
-        theAnswer: theAnswer,
-        finalFinalResult: finalFinalResult,
-      } 
-      const dbRef = firebase.database().ref('Question');
-      dbRef.push(wholeAnswer);
-      this.setState({
-        display: theAnswer
-      })
-    } else {
-      let currentEquation = this.state.equation;
-      console.log(currentEquation);
-      currentEquation.pop();
-      currentEquation.push(finalEquation);   
-      
-      this.setState({
-        display: finalEquation
-      })
-      this.updateDisplay();
-      }
+    let finalResult = (this.state.equation).toString();
+    // g is global for regex
+    const finalFinalResult = finalResult.replace(/,/g, '');
+    // console.log(finalFinalResult);
+    const theAnswer = eval(finalFinalResult);
+    const wholeAnswer = {
+      theAnswer: theAnswer,
+      finalFinalResult: finalFinalResult,
     }
+    const dbRef = firebase.database().ref('Question');
+    dbRef.push(wholeAnswer);
+    this.setState({
+      display: theAnswer
+    })
+  }
+
+  hello () {
+    console.log('hello');
+  }
 
   removeEquation(keyToRemove) {
     firebase.database().ref(`Question/${keyToRemove}`).remove();
@@ -182,13 +177,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="wrapper">
         <h1>Never Calc Down!</h1>
         <form action="" onSubmit={this.sendNumber}>
           <div>
             <input type="text" disabled={true} value={this.state.display} />
+            {/* passed in the function, this creates a prop called sayhello, makes it accesbile in the children */}
+            <Buttons sayhello={this.hello}/>
           </div>
-          <div>
+          {/* <div>
             <button onClick={() => this.userInput(7)}>7</button>
             <button onClick={() => this.userInput(8)}>8</button>
             <button onClick={() => this.userInput(9)}>9</button>
@@ -210,26 +207,28 @@ class App extends React.Component {
             <button onClick={() => this.userInput(0)}>0</button>
             <button onClick={() => this.userClear()}>C</button>
             <button onClick={() => this.userInput('+')}>+</button>
-            <button onClick={() => this.userEnter('=')}>=</button>
-          </div>
+            <button onClick={() => this.userEnter()}>=</button>
+          </div> */}
         </form>
         <h2>Equations:</h2>
-        <ul>
-          {this.state.savedEquations.map((input) => {
-            // these are all passed to the child, this is passing the PROP
-            // console.log(input)
-            return <Remove
-              // going in the array to find they individual key on each item
-              key={input.key}
-              display={input.finalFinalResult}
-              equation={input.theAnswer}
-              firebaseKey={input.key}
-              firebaseDisplay={input.finalFinalResult}
-              result={input.theAnswer}
-              removeEquation={this.removeEquation}
-            />
-          })}
-        </ul>
+        <div className="detail">
+          <ul>
+            {this.state.savedEquations.map((input) => {
+              // these are all passed to the child, this is passing the PROP
+              // console.log(input)
+              return <Remove
+                // going in the array to find they individual key on each item
+                key={input.key}
+                display={input.finalFinalResult}
+                equation={input.theAnswer}
+                firebaseKey={input.key}
+                firebaseDisplay={input.finalFinalResult}
+                result={input.theAnswer}
+                removeEquation={this.removeEquation}
+              />
+            })}
+          </ul>
+        </div>
         <h2>Budgeting Notes:</h2>
 
       </div>

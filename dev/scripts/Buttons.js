@@ -1,27 +1,26 @@
 
-// import React from 'react';
+import React from 'react';
 
-// const Buttons = (props) => {
-//   console.log(props);
-//     return (
-//       <button
-//         type="buttons"
-//         // className={props.type === 'action' ? 'buttons action-button' : 'buttons input-button'}
-//         onClick={() => props.label}
-//         value={props.value}
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '/', '*', '-', '+']
 
-//       />
-//     );
-//   }
+const Button = (props) => {
+  console.log(props.number);
+  // 3
+  return (
+    <button onClick={props.morehello} >{props.number}</button>
+  )
+}
 
-//   // pass a function and the value to the function
+const Buttons = (props) => {
+    return (
+      <div>
+        {numbers.map( (number, i) => {
+          // 2- passinng the sayhello through child props
+           return <Button morehello={props.sayhello} number={number} key={i}/>
+        })}
+        </div>
+    );
+  }
 
-//   // describe our expected props types
-//   // Button.propTypes = {
-//   //   type: React.PropTypes.string.isRequired,
-//   //   onClick: React.PropTypes.func.isRequired,
-//   //   label: React.PropTypes.string.isRequired
-//   // }
 
-
-// export default Buttons;
+export default Buttons;

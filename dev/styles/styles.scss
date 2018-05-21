@@ -7,6 +7,10 @@ html {
   color: #333333;
   background-color: #f7f7f7;
 }
+.wrapper {
+  max-width: 80%;
+  margin: 0 auto;
+}
 body {	
   @include fontSize(16);	
   margin: 0 auto;
@@ -25,7 +29,6 @@ ul li, input {
   font-family: 'Montserrat', sans-serif;
   @include fontSize(18);
 }
-
 
 // #dbcdc5
 // #9ac5ab
