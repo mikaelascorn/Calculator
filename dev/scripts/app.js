@@ -21,6 +21,9 @@ firebase.initializeApp(config);
 // Make it work and then set up firebase
 // Strech goal is a notepad on the sign, a full bugeting app, strech strech is a signin
 
+// how to pass down equals into own component 
+// pass clear into new component use props
+
 class App extends React.Component {
 
   constructor() {
@@ -40,8 +43,7 @@ class App extends React.Component {
     this.userEnter = this.userEnter.bind(this);
     this.updateEquation = this.updateEquation.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
-    this.hello = this.hello.bind(this);
-    // this.userFinal = this.userFinal.bind(this);
+    // this.hello = this.hello.bind(this);
   }
 
   // send to firebase
@@ -114,7 +116,8 @@ class App extends React.Component {
           this.updateEquation(selectedInput);
         });
       } else {
-        if (this.state.lastInputOperation === selectedInput) {                    
+        if (this.state.lastInputOperation === selectedInput) {                   
+            // sets up future users 
           return false;
           
         } else {
@@ -130,7 +133,6 @@ class App extends React.Component {
           this.updateDisplay();
         }
       }
-      // })
     }
   }
 
@@ -156,9 +158,9 @@ class App extends React.Component {
     })
   }
 
-  hello () {
-    console.log('hello');
-  }
+  // hello () {
+  //   console.log('hello');
+  // }
 
   removeEquation(keyToRemove) {
     firebase.database().ref(`Question/${keyToRemove}`).remove();
@@ -178,38 +180,45 @@ class App extends React.Component {
   render() {
     return (
       <div className="wrapper">
-        <h1>Never Calc Down!</h1>
-        <form action="" onSubmit={this.sendNumber}>
-          <div>
-            <input type="text" disabled={true} value={this.state.display} />
-            {/* 1- passed in the function, this creates a prop called sayhello, makes it accesbile in the children */}
-            <Buttons userinputs={this.userInput}/>
-            {/* <Buttons sayhello={this.hello} /> */}
-
-            <button onClick={() => this.userEnter()}>=</button>
-            <button onClick={() => this.userClear()}>C</button>
-
+            <h1>Never Calc Down!</h1>
+        <div className="formWrap">
+          <div className="calcWrap">
+            <form action="" onSubmit={this.sendNumber}>
+              <div>
+                <input type="text" disabled={true} value={this.state.display} />
+                {/* 1- passed in the function, this creates a prop, makes it accesbile in the children */}
+                <Buttons userinputs={this.userInput}/>
+                {/* <Buttons sayhello={this.hello} /> */}
+                <button className="diffBut" onClick={() => this.userEnter()}>=</button>
+                <button className="diffBut" onClick={() => this.userClear()}>C</button>
+              </div>
+            </form>
           </div>
-        </form>
-        <h2>Equations:</h2>
-        <div className="detail">
-          <ul>
-            {this.state.savedEquations.map((input) => {
-              // these are all passed to the child, this is passing the PROP
-              // console.log(input)
-              return <Remove
-                // going in the array to find they individual key on each item
-                key={input.key}
-                display={input.finalFinalResult}
-                equation={input.theAnswer}
-                firebaseKey={input.key}
-                firebaseDisplay={input.finalFinalResult}
-                result={input.theAnswer}
-                removeEquation={this.removeEquation}
-              />
-            })}
-          </ul>
+          <div className="detail">
+          <h2>Equations:</h2>
+            <ul>
+              {this.state.savedEquations.map((input) => {
+                // these are all passed to the child, this is passing the PROP
+                // console.log(input)
+                return <Remove
+                  // going in the array to find they individual key on each item
+                  key={input.key}
+                  display={input.finalFinalResult}
+                  equation={input.theAnswer}
+                  firebaseKey={input.key}
+                  firebaseDisplay={input.finalFinalResult}
+                  result={input.theAnswer}
+                  removeEquation={this.removeEquation}
+                />
+              })}
+            </ul>
+          </div>
         </div>
+        <footer>
+          <div>
+            <p>© 2018 Made by <a href="https:/www.mikaelamade.com" target="_blank">Mikaela Scornaienchi</a></p>
+          </div>
+        </footer>
       </div>
     )
   }

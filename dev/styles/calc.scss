@@ -1,19 +1,44 @@
+$secondary: #132A6E;
+
 form {
   padding: 0px;
   margin: 0px auto;
   text-align: center;
-  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
   border: 5px solid transparent;
-  max-width: 400px;
+  max-width: 300px;
   button {
-    margin: 10px;
-    padding: 15px;
-    // box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
-    border: 5px solid transparent;
-    min-width: 52px;
+    padding: 18px 23px;
+    border: none;
+    min-width: 57.5px;
   }
   input {
-    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
     border: 5px solid transparent;
+    max-width: 290px;
+    height: 55px;
+  }
+}
+button:focus {
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
+}
+.calcWrap {
+  position: fixed;
+  top: 0;
+  max-width: 320px;
+}
+button .clearBut {
+  color: $secondary;
+}
+button:nth-child(11n),
+button:nth-child(12n),
+button:nth-child(13n),
+button:nth-child(14n) {
+  padding: 18px 32px;
+}
+
+@media (min-width: 750px) {
+ .calcWrap {
+    position: static;
   }
 }

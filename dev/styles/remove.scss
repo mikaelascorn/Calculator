@@ -1,8 +1,13 @@
+$another: #ED254E;
+$primary: #BFC3BA;
+$secondary: #132A6E;
 ul li {
   list-style-type: none;
   display: flex;
   flex-wrap: row wrap;
   padding-top: 10px;
+  margin: 0px;
+  padding: 0px 0px 0px 15px;
 }
 ul {
   padding: 0px;
@@ -19,7 +24,48 @@ p {
   padding: 0px 5px;
 }
 .detail {
-  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
   border: 5px solid transparent;
   margin: 15px 0px;
+  position: absolute;
+  top: 61%;
+  width: 300px;
+  max-height: 160px;
+  overflow: scroll;
+  background-color: $primary;
+  color: $secondary;
 }
+
+@media (min-height: 600px) {
+  .detail {
+    position: absolute;
+    top: 55%;
+    max-height: 230px;
+  }
+  .diffBut {
+    padding: 18px 65px;
+  }
+}
+
+@media (min-height: 700px) {
+  .detail {
+    position: absolute;
+    top: 48%;
+    max-height: 317px;
+  }
+}
+
+@media (min-height: 750px) {
+  .detail {
+    position: absolute;
+    top: 45%;
+    max-height: 370px;
+  }
+}
+
+@media (min-width: 750px) {
+  .detail {
+    position: static;
+    // max-height: 450px;
+  }
+}
+
