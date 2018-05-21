@@ -182,33 +182,14 @@ class App extends React.Component {
         <form action="" onSubmit={this.sendNumber}>
           <div>
             <input type="text" disabled={true} value={this.state.display} />
-            {/* passed in the function, this creates a prop called sayhello, makes it accesbile in the children */}
-            <Buttons sayhello={this.hello}/>
-          </div>
-          {/* <div>
-            <button onClick={() => this.userInput(7)}>7</button>
-            <button onClick={() => this.userInput(8)}>8</button>
-            <button onClick={() => this.userInput(9)}>9</button>
-            <button onClick={() => this.userInput('/')}>/</button>
-          </div>
-          <div>
-            <button onClick={() => this.userInput(4)}>4</button>
-            <button onClick={() => this.userInput(5)}>5</button>
-            <button onClick={() => this.userInput(6)}>6</button>
-            <button onClick={() => this.userInput('*')}>*</button>
-          </div>
-          <div>
-            <button onClick={() => this.userInput(1)}>1</button>
-            <button onClick={() => this.userInput(2)}>2</button>
-            <button onClick={() => this.userInput(3)}>3</button>
-            <button onClick={() => this.userInput('-')}>-</button>
-          </div>
-          <div>
-            <button onClick={() => this.userInput(0)}>0</button>
-            <button onClick={() => this.userClear()}>C</button>
-            <button onClick={() => this.userInput('+')}>+</button>
+            {/* 1- passed in the function, this creates a prop called sayhello, makes it accesbile in the children */}
+            <Buttons userinputs={this.userInput}/>
+            {/* <Buttons sayhello={this.hello} /> */}
+
             <button onClick={() => this.userEnter()}>=</button>
-          </div> */}
+            <button onClick={() => this.userClear()}>C</button>
+
+          </div>
         </form>
         <h2>Equations:</h2>
         <div className="detail">
@@ -229,8 +210,6 @@ class App extends React.Component {
             })}
           </ul>
         </div>
-        <h2>Budgeting Notes:</h2>
-
       </div>
     )
   }
