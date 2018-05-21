@@ -1,19 +1,20 @@
-$secondary: #132A6E;
-
+$another: #ED254E;
+$primary: #A97DF9;
+$secondary: #333333;
 form {
   padding: 0px;
   margin: 0px auto;
   text-align: center;
-  border: 5px solid transparent;
+  border: 0px solid transparent;
   max-width: 300px;
   button {
-    padding: 18px 23px;
+    padding: 18px 24px;
     border: none;
     min-width: 57.5px;
   }
   input {
     border: 5px solid transparent;
-    max-width: 290px;
+    max-width: 295px;
     height: 55px;
   }
 }
@@ -24,8 +25,11 @@ button:focus {
 }
 .calcWrap {
   position: fixed;
-  top: 0;
+  top: 50px;
   max-width: 320px;
+}
+.diffBut {
+  padding: 18px 67.5px;
 }
 button .clearBut {
   color: $secondary;
@@ -34,7 +38,7 @@ button:nth-child(11n),
 button:nth-child(12n),
 button:nth-child(13n),
 button:nth-child(14n) {
-  padding: 18px 32px;
+  padding: 18px 33px;
 }
 
 @media (min-width: 750px) {

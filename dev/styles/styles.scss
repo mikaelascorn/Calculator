@@ -3,8 +3,8 @@
 	font-size: ($scale / 10) * 1rem;
 }
 $another: #ED254E;
-$primary: #BFC3BA;
-$secondary: #132A6E;
+$primary: #A97DF9;
+$secondary: #333333;
 html {
   font-size: 62.5%;
   color: $secondary;
@@ -32,6 +32,8 @@ h1 {
   margin-bottom: 5px;
   color: $secondary;
   margin: 0 auto;
+  padding-top: 15px;
+  text-transform: uppercase
 }
 h2 {
   font-family: 'Montserrat', sans-serif;
@@ -61,42 +63,61 @@ input {
 }
 footer {
   position: absolute;
-  bottom: 0%;
+  bottom: 1%;
   margin: 0 auto;
   padding: 0px;
-  color:$primary;
+  left: 20px;
+  color:$secondary;
   p {
     text-align: center;
   }
   a {
     text-decoration: none;
-    color: $primary;
+    color: $secondary;
   }
   a:hover {
     color: #60E0B7;
   }
 }
-
+@media (min-width: 700px) {
+  footer {
+    left: 20px;
+  }
+}
+ 
 @media (min-width: 750px) {
   h1 {
-    padding: 15px 0px 30px;
+    padding: 30px 0px 0px;
   }
-  // h2 {
-  //   // position: fixed;
-  //   background-color: #BFC3BA;
-  //   padding: 10px 75px;
-  //   margin-bottom: 30px;
-  // }
   ul {
-    padding: 20px 0px;
+    padding: 25px 0px;
+  }
+  h2 {
+    position: fixed;
+    background-color: #BFC3BA;
+    padding: 10px 75px;
+    margin-bottom: 30px;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: space-between;
+    align-content: space-between;
+    height: 100vh;
   }
   .formWrap {
+    margin: 0px;
     display: flex;
-    flex-wrap: row wrap;
+    flex-flow: row wrap;
     justify-content: space-around;
-    align-items: center;
+    align-content: center;
   }
-
+  footer {
+    position: static;
+    margin: 0 auto;
+    bottom: 0px;
+  }
 }
 
 
@@ -109,3 +130,4 @@ footer {
 // #333333
 // #f7f7f7
 // #132A6E
+// #9cdeb1

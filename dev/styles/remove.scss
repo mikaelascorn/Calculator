@@ -1,6 +1,6 @@
 $another: #ED254E;
-$primary: #BFC3BA;
-$secondary: #132A6E;
+$primary: #A97DF9;
+$secondary: #333333;
 ul li {
   list-style-type: none;
   display: flex;
@@ -25,31 +25,27 @@ p {
 }
 .detail {
   border: 5px solid transparent;
-  margin: 15px 0px;
   position: absolute;
   top: 61%;
   width: 300px;
   max-height: 160px;
   overflow: scroll;
-  background-color: $primary;
+  background-color: #929292;
   color: $secondary;
 }
 
 @media (min-height: 600px) {
   .detail {
     position: absolute;
-    top: 55%;
+    top: 56%;
     max-height: 230px;
-  }
-  .diffBut {
-    padding: 18px 65px;
   }
 }
 
 @media (min-height: 700px) {
   .detail {
     position: absolute;
-    top: 48%;
+    top: 50%;
     max-height: 317px;
   }
 }
@@ -57,7 +53,7 @@ p {
 @media (min-height: 750px) {
   .detail {
     position: absolute;
-    top: 45%;
+    top: 46%;
     max-height: 370px;
   }
 }
