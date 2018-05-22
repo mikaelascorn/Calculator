@@ -8,10 +8,10 @@ $secondary: #333333;
 html {
   font-size: 62.5%;
   color: $secondary;
-  background-color: #f7f7f7;
   height: 100vh;
   margin: 0 auto;
   max-width: 100%;
+  background-image: url(../../assets/background.jpg);
 }
 .formWrap {
   margin: 0 auto;
@@ -29,16 +29,19 @@ body {
 h1 {
   @include fontSize(28);
   font-family: 'Montserrat', sans-serif;
-  margin-bottom: 5px;
-  color: $secondary;
+  background-color: $secondary;
+  color: #f7f7f7;;
   margin: 0 auto;
-  padding-top: 15px;
-  text-transform: uppercase
+  margin: 6px auto;
+  width: 95%;
+  padding: 5px 0px;
+  text-transform: uppercase;
 }
 h2 {
   font-family: 'Montserrat', sans-serif;
   @include fontSize(23);
   margin: 5px;
+  color: $secondary;
 }
 form button {
   @include fontSize(20);
@@ -63,13 +66,15 @@ input {
 }
 footer {
   position: absolute;
-  bottom: 1%;
+  bottom: 3%;
   margin: 0 auto;
   padding: 0px;
-  left: 20px;
-  color:$secondary;
+  left: 5px;
   p {
     text-align: center;
+    margin: 0px auto;
+    background-color: #BFC3BA;
+    color: $secondary;
   }
   a {
     text-decoration: none;
@@ -78,23 +83,23 @@ footer {
   a:hover {
     color: #60E0B7;
   }
-}
-@media (min-width: 700px) {
-  footer {
-    left: 20px;
+  img {
+    max-height: 25px;
+    max-width: 25px;
   }
 }
- 
-@media (min-width: 750px) {
+
+@media (min-width: 730px) {
   h1 {
-    padding: 30px 0px 0px;
+    margin: 30px auto;
+    width: 340px;
   }
   ul {
-    padding: 25px 0px;
+    padding: 30px 0px 0px;
   }
   h2 {
     position: fixed;
-    background-color: #BFC3BA;
+    background-color: #60E0B7;
     padding: 10px 75px;
     margin-bottom: 30px;
   }
@@ -115,19 +120,27 @@ footer {
   }
   footer {
     position: static;
-    margin: 0 auto;
-    bottom: 0px;
+    margin: 10px auto;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+  }
+  .diffBut {
+    padding: 18px 67.5px;
   }
 }
-
-
-
-// #dbcdc5
-// #EFD0CA
-// #9ac5ab
-// #60E0B7
-// #7a7a7a
-// #333333
-// #f7f7f7
-// #132A6E
-// #9cdeb1
+@media (min-height: 600px) {
+footer {
+    margin: 0px 0px 0px 20px;
+  }
+}
+@media (min-height: 650px) {
+  footer {
+    margin: 0px 0px 0px 30px;
+  }
+}
+@media (min-height: 700px) {
+  footer {
+    margin: 5px 45px;
+  }
+}

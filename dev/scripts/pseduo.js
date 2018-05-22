@@ -12,26 +12,7 @@
 // user enter - on enter = convert the final equation to a string without , and eval()
 
 
-// equal example - I keep getting this error ' invalid left hand side in assignment' or i broke the browser
 // even if i just add/if else statement, or if i add if else and then run them through a new function to evaluate - i can get rid of the sign at the end if they change their mind, but I cannot get it to calculate - callback function? theyre not going through the function with eval()
 
 
-// components - 
-// style
 
-userEnter(finalEquation) {
-  let finalResult = (this.state.equation).toString();
-  // g is global for regex
-  const finalFinalResult = finalResult.replace(/,/g, '');
-  // console.log(finalFinalResult);
-  const theAnswer = eval(finalFinalResult);
-  const wholeAnswer = {
-    theAnswer: theAnswer,
-    finalFinalResult: finalFinalResult,
-  }
-  const dbRef = firebase.database().ref('Question');
-  dbRef.push(wholeAnswer);
-  this.setState({
-    display: theAnswer
-  })
-}

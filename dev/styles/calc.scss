@@ -13,8 +13,9 @@ form {
     min-width: 57.5px;
   }
   input {
-    border: 5px solid transparent;
-    max-width: 295px;
+    border: 5px solid #BFC3BA;
+    background-color: #BFC3BA;
+    max-width: 295.5px;
     height: 55px;
   }
 }
@@ -25,7 +26,7 @@ button:focus {
 }
 .calcWrap {
   position: fixed;
-  top: 50px;
+  top: 60px;
   max-width: 320px;
 }
 .diffBut {
@@ -40,8 +41,13 @@ button:nth-child(13n),
 button:nth-child(14n) {
   padding: 18px 33px;
 }
+@media (min-height: 700px) {
+ .calcWrap {
+  top: 67px;
+ }
+}
 
-@media (min-width: 750px) {
+@media (min-width: 730px) {
  .calcWrap {
     position: static;
   }

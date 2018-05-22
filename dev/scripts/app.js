@@ -180,7 +180,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="wrapper">
-            <h1>Never Calc Down!</h1>
+        <h1>Never Calc Down!</h1>
         <div className="formWrap">
           <div className="calcWrap">
             <form action="" onSubmit={this.sendNumber}>
@@ -189,8 +189,10 @@ class App extends React.Component {
                 {/* 1- passed in the function, this creates a prop, makes it accesbile in the children */}
                 <Buttons userinputs={this.userInput}/>
                 {/* <Buttons sayhello={this.hello} /> */}
-                <button className="diffBut" onClick={() => this.userEnter()}>=</button>
-                <button className="diffBut" onClick={() => this.userClear()}>C</button>
+                <div className="special">
+                  <button className="diffBut" onClick={() => this.userEnter()}>=</button>
+                  <button className="diffBut" onClick={() => this.userClear()}>C</button>
+                </div>
               </div>
             </form>
           </div>
@@ -214,7 +216,7 @@ class App extends React.Component {
             </ul>
           </div>
         </div>
-        <footer>
+        <footer className="footerStyle">
           <div>
             <p>© 2018 Made by <a href="https:/www.mikaelamade.com" target="_blank">Mikaela Scornaienchi</a></p>
           </div>
