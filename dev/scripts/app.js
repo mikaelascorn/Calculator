@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Buttons from './Buttons';
 import Remove from './Remove';
+import Enter from './Enter';
+import Footer from './Footer';
 
 import firebase from 'firebase';
 
@@ -216,11 +218,7 @@ class App extends React.Component {
             </ul>
           </div>
         </div>
-        <footer className="footerStyle">
-          <div>
-            <p>© 2018 Made by <a href="https:/www.mikaelamade.com" target="_blank">Mikaela Scornaienchi</a></p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     )
   }
