@@ -183,45 +183,47 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="wrapper">
-        <h1>Never Calc Down!</h1>
-        <div className="formWrap">
-          <div className="calcWrap">
-            <form action="" onSubmit={this.sendNumber}>
-              <div>
-                <input type="text" disabled={true} value={this.state.display} />
-                {/* 1- passed in the function, this creates a prop, makes it accesbile in the children */}
-                <Buttons userinputs={this.userInput}/>
-                {/* <Buttons sayhello={this.hello} /> */}
-                <div className="special">
-                  <Enter userEnters={this.userEnter} />
-                  {/* <button className="diffBut" onClick={() => this.userClear()}>C</button> */}
-                  <Clear userClears={this.userClear} />
+      <div className="opacity">
+        <div className="wrapper">
+          <h1>Never Calc Down!</h1>
+          <div className="formWrap">
+            <div className="calcWrap">
+              <form action="" onSubmit={this.sendNumber}>
+                <div>
+                  <input type="text" disabled={true} value={this.state.display} />
+                  {/* 1- passed in the function, this creates a prop, makes it accesbile in the children */}
+                  <Buttons userinputs={this.userInput}/>
+                  {/* <Buttons sayhello={this.hello} /> */}
+                  <div className="special">
+                    <Enter userEnters={this.userEnter} />
+                    {/* <button className="diffBut" onClick={() => this.userClear()}>C</button> */}
+                    <Clear userClears={this.userClear} />
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
+            <div className="detail">
+            <h2>Equations:</h2>
+              <ul>
+                {this.state.savedEquations.map((input) => {
+                  // these are all passed to the child, this is passing the PROP
+                  // console.log(input)
+                  return <Remove
+                    // going in the array to find they individual key on each item
+                    key={input.key}
+                    display={input.finalFinalResult}
+                    equation={input.theAnswer}
+                    firebaseKey={input.key}
+                    firebaseDisplay={input.finalFinalResult}
+                    result={input.theAnswer}
+                    removeEquation={this.removeEquation}
+                  />
+                })}
+              </ul>
+            </div>
           </div>
-          <div className="detail">
-          <h2>Equations:</h2>
-            <ul>
-              {this.state.savedEquations.map((input) => {
-                // these are all passed to the child, this is passing the PROP
-                // console.log(input)
-                return <Remove
-                  // going in the array to find they individual key on each item
-                  key={input.key}
-                  display={input.finalFinalResult}
-                  equation={input.theAnswer}
-                  firebaseKey={input.key}
-                  firebaseDisplay={input.finalFinalResult}
-                  result={input.theAnswer}
-                  removeEquation={this.removeEquation}
-                />
-              })}
-            </ul>
-          </div>
+          <Footer />
         </div>
-        <Footer />
       </div>
     )
   }
