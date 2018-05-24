@@ -4,6 +4,7 @@ import Buttons from './Buttons';
 import Remove from './Remove';
 import Enter from './Enter';
 import Footer from './Footer';
+import Clear from './Clear';
 
 import firebase from 'firebase';
 
@@ -118,7 +119,7 @@ class App extends React.Component {
           this.updateEquation(selectedInput);
         });
       } else {
-        if (this.state.lastInputOperation === selectedInput) {                   
+        if (this.state.lastInputOperation === selectedInput) {              
             // sets up future users 
           return false;
           
@@ -144,6 +145,7 @@ class App extends React.Component {
   // if not then run like normal
 
   userEnter(finalEquation) {
+    console.log('clicked');
     let finalResult = (this.state.equation).toString();
     // g is global for regex
     const finalFinalResult = finalResult.replace(/,/g, '');
@@ -192,8 +194,9 @@ class App extends React.Component {
                 <Buttons userinputs={this.userInput}/>
                 {/* <Buttons sayhello={this.hello} /> */}
                 <div className="special">
-                  <button className="diffBut" onClick={() => this.userEnter()}>=</button>
-                  <button className="diffBut" onClick={() => this.userClear()}>C</button>
+                  <Enter userEnters={this.userEnter} />
+                  {/* <button className="diffBut" onClick={() => this.userClear()}>C</button> */}
+                  <Clear userClears={this.userClear} />
                 </div>
               </div>
             </form>
