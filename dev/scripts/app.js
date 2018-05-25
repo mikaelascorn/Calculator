@@ -4,7 +4,7 @@ import Buttons from './Buttons';
 import Remove from './Remove';
 import Enter from './Enter';
 import Footer from './Footer';
-import Clear from './Clear';
+// import Clear from './Clear';
 
 import firebase from 'firebase';
 
@@ -195,8 +195,8 @@ class App extends React.Component {
                   <Buttons userinputs={this.userInput}/>
                   {/* <Buttons sayhello={this.hello} /> */}
                   <div className="special">
-                    <Enter userEnters={this.userEnter} />
-                    {/* <button className="diffBut" onClick={() => this.userClear()}>C</button> */}
+                    {/* <Enter userEnters={this.userEnter} /> */}
+                    <button className="diffBut" onClick={() => this.userClear()}>C</button>
                     <Clear userClears={this.userClear} />
                   </div>
                 </div>
