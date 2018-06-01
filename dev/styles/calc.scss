@@ -6,7 +6,8 @@ form {
   margin: 0px auto;
   text-align: center;
   border: 0px solid transparent;
-  max-width: 300px;
+  max-width: 316px;
+  border: 7px solid $secondary;
   button {
     padding: 18px 24px;
     border: none;
@@ -15,7 +16,7 @@ form {
   input {
     border: 5px solid #BFC3BA;
     background-color: #BFC3BA;
-    max-width: 295.5px;
+    max-width: 302px;
     height: 55px;
   }
 }
@@ -28,18 +29,28 @@ button:focus {
   position: fixed;
   top: 60px;
   max-width: 320px;
-}
-.diffBut {
-  padding: 18px 67.5px;
+  .diffBut {
+    padding: 18px 67.6px;
+  }
+  .enterBut {
+    padding: 18px 67.6px;
+  }
+  .special {
+    display: flex;
+    background-color: $primary;
+    width: 302px;
+    align-content: center;
+  }
 }
 button .clearBut {
   color: $secondary;
+  padding: 18px 70px;
 }
 button:nth-child(11n),
 button:nth-child(12n),
 button:nth-child(13n),
 button:nth-child(14n) {
-  padding: 18px 33px;
+  padding: 18px 33.4px;
 }
 @media (min-height: 700px) {
  .calcWrap {
@@ -50,5 +61,8 @@ button:nth-child(14n) {
 @media (min-width: 730px) {
  .calcWrap {
     position: static;
+  }
+  .diffBut {
+    padding: 18px 69.5px;
   }
 }

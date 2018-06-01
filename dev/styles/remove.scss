@@ -31,8 +31,8 @@ p {
   max-height: 170px;
   overflow: scroll;
   background-color: #F2F2F2;
-  // background-color: #929292;
   color: $secondary;
+  border: 7px solid $secondary;
 }
 .special {
   width: 300px;

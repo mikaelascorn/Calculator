@@ -195,9 +195,9 @@ class App extends React.Component {
                   <Buttons userinputs={this.userInput}/>
                   {/* <Buttons sayhello={this.hello} /> */}
                   <div className="special">
-                    {/* <Enter userEnters={this.userEnter} /> */}
-                    <button className="diffBut" onClick={() => this.userClear()}>C</button>
-                    <Clear userClears={this.userClear} />
+                    <Enter userEnters={this.userEnter} />
+                    <button className="diffBut clearBut" onClick={() => this.userClear()}>C</button>
+                    {/* <Clear userClears={this.userClear} /> */}
                   </div>
                 </div>
               </form>
