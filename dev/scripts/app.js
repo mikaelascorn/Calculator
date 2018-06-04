@@ -91,7 +91,6 @@ class App extends React.Component {
   // this will update the view window when the user presses a number
   // handles only what the user pushes 
   userInput(selectedInput) {
-    
     if (typeof (selectedInput) === 'number') {
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
@@ -105,6 +104,7 @@ class App extends React.Component {
       if (this.state.lastInputOperation === null) {
         let currentOperation = this.state.lastInputOperation;
         currentOperation = selectedInput;
+
         this.setState({
           lastInputOperation: currentOperation
         }, () => {
@@ -112,7 +112,7 @@ class App extends React.Component {
         });
       } else {
         if (this.state.lastInputOperation === selectedInput) {              
-            // sets up future users 
+          // sets up future users 
           return false;
         } else {
           let currentEquation = this.state.equation;
@@ -127,45 +127,39 @@ class App extends React.Component {
     }
   }
 
+  // checks for a sign
   userEnter(finalEquation) {
     console.log(this.state.lastInputOperation);
     if (this.state.lastInputOperation === null) {
-      let finalResult = (this.state.equation).toString();
-      // g is global for regex
-      const finalFinalResult = finalResult.replace(/,/g, '');
-      // console.log(finalFinalResult);
-      const theAnswer = eval(finalFinalResult);
-      const wholeAnswer = {
-        theAnswer: theAnswer,
-        finalFinalResult: finalFinalResult,
-      }
-      const dbRef = firebase.database().ref('Question');
-      dbRef.push(wholeAnswer);
-      this.setState({
-        display: theAnswer
-      })
+
+      this.evalResult(finalEquation);
+
     } else {
 
     let currentEquation = this.state.equation;
       currentEquation.pop();
       currentEquation.push(this.statelastActionWasOperation);
 
-
-      let finalResult = (this.state.equation).toString();
-      // g is global for regex
-      const finalFinalResult = finalResult.replace(/,/g, '');
-      // console.log(finalFinalResult);
-      const theAnswer = eval(finalFinalResult);
-      const wholeAnswer = {
-        theAnswer: theAnswer,
-        finalFinalResult: finalFinalResult,
-      }
-      const dbRef = firebase.database().ref('Question');
-      dbRef.push(wholeAnswer);
-      this.setState({
-        display: theAnswer
-      })
+      this.evalResult(finalEquation);
     }
+  }
+
+  // then it evals it!
+  evalResult(result) {
+    let finalResult = (this.state.equation).toString();
+    // g is global for regex
+    const finalFinalResult = finalResult.replace(/,/g, '');
+    // console.log(finalFinalResult);
+    const theAnswer = eval(finalFinalResult);
+    const wholeAnswer = {
+      theAnswer: theAnswer,
+      finalFinalResult: finalFinalResult,
+    }
+    const dbRef = firebase.database().ref('Question');
+    dbRef.push(wholeAnswer);
+    this.setState({
+      display: theAnswer
+    })
   }
 
   // hello () {
