@@ -29,7 +29,7 @@ html {
   left: 0;
   bottom: 0;
   z-index: -1;
-  background-color: rgba(255,255,255, 0.3);
+  background-color: rgba(255,255,255, 0.4);
 }
 .formWrap {
   margin: 0 auto;
@@ -48,7 +48,7 @@ h1 {
   @include fontSize(28);
   font-family: 'Montserrat', sans-serif;
   background-color: $secondary;
-  color: #f7f7f7;;
+  color: #f7f7f7;
   margin: 0 auto;
   margin: 6px auto;
   width: 100%;
@@ -84,19 +84,19 @@ input {
 }
 footer {
   position: absolute;
-  bottom: 3%;
+  bottom: 2%;
   margin: 0 auto;
   padding: 0px;
   left: 5px;
   p {
     text-align: center;
     margin: 0px auto;
-    background-color: #BFC3BA;
-    color: $secondary;
+    background-color: $secondary;
+    color: #f7f7f7;
   }
   a {
     text-decoration: none;
-    color: $secondary;
+    color: #f7f7f7;
   }
   a:hover {
     color: #60E0B7;

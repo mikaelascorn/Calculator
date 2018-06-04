@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import Buttons from './Buttons';
 import Remove from './Remove';
 import Enter from './Enter';
+import Clear from './Clear';
 import Footer from './Footer';
-// import Clear from './Clear';
 
 import firebase from 'firebase';
 
@@ -18,15 +18,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// On submit log the calculation to the screen.
-// Start with numbers on the screen, individual buttons, they all have one state, and it gets altered and it updates on submit/enter/=
-// Calculator is the APP and the notepad is the child Component?
-// Make it work and then set up firebase
-// Strech goal is a notepad on the sign, a full bugeting app, strech strech is a signin
-
-// how to pass down equals into own component 
-// pass clear into new component use props
-
 class App extends React.Component {
 
   constructor() {
@@ -39,11 +30,12 @@ class App extends React.Component {
       lastInputOperation: null,
       lastActionWasOperation: false,
       userEnter: false,
-      didIsayHello: false
+      // didIsayHello: false,
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
     this.userEnter = this.userEnter.bind(this);
+    this.userClear = this.userClear.bind(this);
     this.updateEquation = this.updateEquation.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
     // this.hello = this.hello.bind(this);
@@ -99,6 +91,7 @@ class App extends React.Component {
   // this will update the view window when the user presses a number
   // handles only what the user pushes 
   userInput(selectedInput) {
+    
     if (typeof (selectedInput) === 'number') {
       let lastAction = this.state.lastActionWasOperation;
       lastAction = false;
@@ -112,7 +105,6 @@ class App extends React.Component {
       if (this.state.lastInputOperation === null) {
         let currentOperation = this.state.lastInputOperation;
         currentOperation = selectedInput;
-        console.log(currentOperation);
         this.setState({
           lastInputOperation: currentOperation
         }, () => {
@@ -122,12 +114,8 @@ class App extends React.Component {
         if (this.state.lastInputOperation === selectedInput) {              
             // sets up future users 
           return false;
-          
         } else {
           let currentEquation = this.state.equation;
-          console.log(currentEquation);
-          console.log(selectedInput);
-          console.log(currentEquation);
           currentEquation.pop();
           currentEquation.push(selectedInput);
           this.setState({
@@ -139,27 +127,45 @@ class App extends React.Component {
     }
   }
 
-  //  evals the final equation when they hit enter
-  // here i need to add an if statement to evaluate if they previously entered a string
-  // if so pop that out and push in the equal sign
-  // if not then run like normal
-
   userEnter(finalEquation) {
-    console.log('clicked');
-    let finalResult = (this.state.equation).toString();
-    // g is global for regex
-    const finalFinalResult = finalResult.replace(/,/g, '');
-    // console.log(finalFinalResult);
-    const theAnswer = eval(finalFinalResult);
-    const wholeAnswer = {
-      theAnswer: theAnswer,
-      finalFinalResult: finalFinalResult,
+    console.log(this.state.lastInputOperation);
+    if (this.state.lastInputOperation === null) {
+      let finalResult = (this.state.equation).toString();
+      // g is global for regex
+      const finalFinalResult = finalResult.replace(/,/g, '');
+      // console.log(finalFinalResult);
+      const theAnswer = eval(finalFinalResult);
+      const wholeAnswer = {
+        theAnswer: theAnswer,
+        finalFinalResult: finalFinalResult,
+      }
+      const dbRef = firebase.database().ref('Question');
+      dbRef.push(wholeAnswer);
+      this.setState({
+        display: theAnswer
+      })
+    } else {
+
+    let currentEquation = this.state.equation;
+      currentEquation.pop();
+      currentEquation.push(this.statelastActionWasOperation);
+
+
+      let finalResult = (this.state.equation).toString();
+      // g is global for regex
+      const finalFinalResult = finalResult.replace(/,/g, '');
+      // console.log(finalFinalResult);
+      const theAnswer = eval(finalFinalResult);
+      const wholeAnswer = {
+        theAnswer: theAnswer,
+        finalFinalResult: finalFinalResult,
+      }
+      const dbRef = firebase.database().ref('Question');
+      dbRef.push(wholeAnswer);
+      this.setState({
+        display: theAnswer
+      })
     }
-    const dbRef = firebase.database().ref('Question');
-    dbRef.push(wholeAnswer);
-    this.setState({
-      display: theAnswer
-    })
   }
 
   // hello () {
@@ -191,13 +197,12 @@ class App extends React.Component {
               <form action="" onSubmit={this.sendNumber}>
                 <div>
                   <input type="text" disabled={true} value={this.state.display} />
-                  {/* 1- passed in the function, this creates a prop, makes it accesbile in the children */}
                   <Buttons userinputs={this.userInput}/>
                   {/* <Buttons sayhello={this.hello} /> */}
                   <div className="special">
                     <Enter userEnters={this.userEnter} />
-                    <button className="diffBut clearBut" onClick={() => this.userClear()}>C</button>
-                    {/* <Clear userClears={this.userClear} /> */}
+                    {/* <button className="diffBut clearBut" onClick={() => this.userClear()}>C</button> */}
+                    <Clear userClears={this.userClear} />
                   </div>
                 </div>
               </form>
@@ -206,10 +211,8 @@ class App extends React.Component {
             <h2>Equations:</h2>
               <ul>
                 {this.state.savedEquations.map((input) => {
-                  // these are all passed to the child, this is passing the PROP
                   // console.log(input)
                   return <Remove
-                    // going in the array to find they individual key on each item
                     key={input.key}
                     display={input.finalFinalResult}
                     equation={input.theAnswer}

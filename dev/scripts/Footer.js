@@ -6,7 +6,7 @@ class Footer extends React.Component {
     return (
       <footer className="footerStyle">
         <div>
-          <p>© 2018 Made by <a href="https:/www.mikaelamade.com" target="_blank">Mikaela Scornaienchi</a></p>
+          <p>© 2018 Made by <a href="https://www.mikaelamade.com" target="_blank">Mikaela Scornaienchi</a></p>
         </div>
       </footer>
     )

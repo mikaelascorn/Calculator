@@ -4,7 +4,7 @@ import React from 'react';
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '/', '*', '-', '+']
 
 const Button = (props) => {
-  console.log(props.number);
+  // console.log(props.number);
   // 3 call the chain of events on click, to trigger the actual function, pass the props and individual numbers through it, userInput(selectedInput) = usernumber(props.number) - give it a callback function so it waits and doesnt break the browser
   return (
     <button onClick={ () => props.usernumber(props.number)} >

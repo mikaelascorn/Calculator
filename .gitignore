@@ -3,5 +3,3 @@ public/**/*
 package-lock.json
 dev/scripts/pseduo.js
 .DS_Store
-dev/scrips/Enter.js
-pseduo.js
