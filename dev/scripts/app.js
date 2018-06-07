@@ -30,7 +30,6 @@ class App extends React.Component {
       lastInputOperation: null,
       lastActionWasOperation: false,
       userEnter: false,
-      // didIsayHello: false,
     }
     this.userInput = this.userInput.bind(this);
     this.sendNumber = this.sendNumber.bind(this);
@@ -38,7 +37,6 @@ class App extends React.Component {
     this.userClear = this.userClear.bind(this);
     this.updateEquation = this.updateEquation.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
-    // this.hello = this.hello.bind(this);
   }
 
   // send to firebase
@@ -50,7 +48,6 @@ class App extends React.Component {
       const equations = snapshot.val();
       const equationArray = [];
       for (let item in equations) {
-        // console.log(equation);
         equations[item].key = item;
         equationArray.push(equations[item])
       }
@@ -63,7 +60,6 @@ class App extends React.Component {
     });
   }
 
-  // convenience functions
   // Accepts what user enters and pushes the results into an array
   updateEquation(input) {
     let currentEquation = this.state.equation;
@@ -131,15 +127,12 @@ class App extends React.Component {
   userEnter(finalEquation) {
     console.log(this.state.lastInputOperation);
     if (this.state.lastInputOperation === null) {
-
       this.evalResult(finalEquation);
-
     } else {
 
     let currentEquation = this.state.equation;
       currentEquation.pop();
       currentEquation.push(this.statelastActionWasOperation);
-
       this.evalResult(finalEquation);
     }
   }
@@ -147,9 +140,7 @@ class App extends React.Component {
   // then it evals it!
   evalResult(result) {
     let finalResult = (this.state.equation).toString();
-    // g is global for regex
     const finalFinalResult = finalResult.replace(/,/g, '');
-    // console.log(finalFinalResult);
     const theAnswer = eval(finalFinalResult);
     const wholeAnswer = {
       theAnswer: theAnswer,
@@ -161,10 +152,6 @@ class App extends React.Component {
       display: theAnswer
     })
   }
-
-  // hello () {
-  //   console.log('hello');
-  // }
 
   removeEquation(keyToRemove) {
     firebase.database().ref(`Question/${keyToRemove}`).remove();
@@ -192,10 +179,8 @@ class App extends React.Component {
                 <div>
                   <input type="text" disabled={true} value={this.state.display} />
                   <Buttons userinputs={this.userInput}/>
-                  {/* <Buttons sayhello={this.hello} /> */}
                   <div className="special">
                     <Enter userEnters={this.userEnter} />
-                    {/* <button className="diffBut clearBut" onClick={() => this.userClear()}>C</button> */}
                     <Clear userClears={this.userClear} />
                   </div>
                 </div>
@@ -205,7 +190,6 @@ class App extends React.Component {
             <h2>Equations:</h2>
               <ul>
                 {this.state.savedEquations.map((input) => {
-                  // console.log(input)
                   return <Remove
                     key={input.key}
                     display={input.finalFinalResult}

@@ -73,14 +73,20 @@ ul li {
 input,
 .remove {
   font-family: 'VT323', monospace;
-  @include fontSize(35);
 }
-input {
-  color: $secondary;
-} 
+.remove {
+  @include fontSize(25);
+}
+
 .remove,
 .wrapper .calcWrap form .diffBut {
   color: $another;
+}
+.wrapper .calcWrap form .diffBut:hover {
+  color: #60E0B7;
+}
+input {
+  @include fontSize(35);
 }
 footer {
   position: absolute;
@@ -147,6 +153,7 @@ footer {
     padding: 18px 67.5px;
   }
 }
+
 @media (min-height: 600px) {
 footer {
     margin: 0px 0px 0px 20px;
